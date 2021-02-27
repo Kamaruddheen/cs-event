@@ -1,0 +1,4 @@
+# Python bytecode files can be omitted
+*.pyc
+# Vscode custome settings
+.vscode
