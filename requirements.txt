@@ -1,5 +1,6 @@
 # required package
-Django==3.1.1
-django-crispy-forms==1.9.2
+# crispy-tailwind==0.3.0
+Django==3.1.7
+django-crispy-forms==1.11.1
 # Not Needed for Hosting
-django-livereload-server==0.3.2
+# django-livereload-server==0.3.2
