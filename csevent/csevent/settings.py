@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'livereload',  # livereload for development purpose only
     'django.contrib.staticfiles',
     'crispy_forms',
     'userapp',
@@ -52,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # livereload for development purpose only
+    'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'csevent.urls'
@@ -125,11 +128,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR/"static",]
+STATICFILES_DIRS = [BASE_DIR/"static", ]
 STATIC_ROOT = BASE_DIR / 'static_files'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'     #Development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
 
 # EMAIL_HOST = '<smtp.host>'
 # EMAIL_PORT = 587
@@ -140,7 +143,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'     #Developmen
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'text-info',
@@ -149,6 +151,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'text-warning',
     messages.ERROR: 'text-danger',
 }
+<<<<<<< HEAD
 
 LOGIN_REDIRECT_URL = "homepage"
 LOGOUT_REDIRECT_URL = "homepage"
+=======
+>>>>>>> origin/main
