@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title> Ransack | Round Prelims</title>
+{% endblock %}
+
+{% block content %}
+
+{% if questions %}
+{% for question in questions %}
+
+<h4>{{forloop.counter}}.{{question.question}}</h4>
+
+{% for q in question.images.all %}
+<img src="{{ q.image.url }}" alt="img" width="250" />
+{% endfor %}
+
+<form method="POST" class="needs-validation" novalidate id="ques_form{{question.id}}">
+    {% csrf_token %}
+    {{answer_form|crispy}}
+    <input type="submit" class="btn btn-success" value="Submit" form="ques_form{{question.id}}">
+</form>
+
+{% endfor %}
+
+{% else %}
+<h1> There might be some problem </h1>
+{% endif %}
+
+
+
+{% endblock %}

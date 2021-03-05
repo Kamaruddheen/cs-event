@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from django.contrib.messages import constants as messages
 from pathlib import Path
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'userapp',
+    'wordhunt'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -131,6 +133,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR/"static", ]
 STATIC_ROOT = BASE_DIR / 'static_files'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
 
@@ -151,6 +156,3 @@ MESSAGE_TAGS = {
     messages.WARNING: 'text-warning',
     messages.ERROR: 'text-danger',
 }
-
-LOGIN_REDIRECT_URL = "homepage"
-LOGOUT_REDIRECT_URL = "homepage"
