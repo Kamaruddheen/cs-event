@@ -15,6 +15,15 @@ def question_prelims_view(request):
     return render(request, 'wordhunt/question.html', context)
 
 
+def question_finals_view(request):
+    wordhunt = Wordhunt.objects.filter(roundtype="final")
+    answer_form = Student_Answer(request.POST or None)
+
+    context = {'questions': wordhunt, 'answer_form': answer_form}
+
+    return render(request, 'wordhunt/question.html', context)
+
+
 def answer_submit(request):
     attended = False
     status = False
@@ -29,7 +38,7 @@ def answer_submit(request):
 
     if Stud_Res_WordHunt.objects.filter(student=student, question=question_obj).exists():
         attended = True
-        messages.info("You have already attended this question")
+        messages.info(request, "You have already attended this question")
     else:
         student_final_answer = Stud_Res_WordHunt.objects.create(
             student=student, question=question_obj, user_answer=value, status=status)

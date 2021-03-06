@@ -5,5 +5,7 @@ app_name = "wordhunt"
 
 urlpatterns = [
     path('prelims/', question_prelims_view, name="prelims"),
-    path('prelims/submit_answer/', answer_submit, name="answer_submit_prelims")
+    path('prelims/submit_answer/', answer_submit, name="answer_submit_prelims"),
+    path('finals/', question_finals_view, name="finals"),
+    # path('prelims/submit_answer/', answer_submit, name="answer_submit_prelims"),
 ]
