@@ -7,19 +7,23 @@ from .models import *
 
 
 def question_prelims_view(request):
-    wordhunt = Wordhunt.objects.filter(roundtype="prelims")
+    wordhunt_A = Wordhunt.objects.filter(roundtype="prelims", section="A")
+    wordhunt_B = Wordhunt.objects.filter(roundtype="prelims", section="B")
     answer_form = Student_Answer(request.POST or None)
 
-    context = {'questions': wordhunt, 'answer_form': answer_form}
+    context = {'questionsA': wordhunt_A, 'questionsB': wordhunt_B,
+               'answer_form': answer_form}
 
     return render(request, 'wordhunt/question.html', context)
 
 
 def question_finals_view(request):
-    wordhunt = Wordhunt.objects.filter(roundtype="final")
+    wordhunt_A = Wordhunt.objects.filter(roundtype="final", section="A")
+    wordhunt_B = Wordhunt.objects.filter(roundtype="final", section="B")
     answer_form = Student_Answer(request.POST or None)
 
-    context = {'questions': wordhunt, 'answer_form': answer_form}
+    context = {'questionsA': wordhunt_A, 'questionsB': wordhunt_B,
+               'answer_form': answer_form}
 
     return render(request, 'wordhunt/question.html', context)
 

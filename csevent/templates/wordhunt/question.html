@@ -6,10 +6,35 @@
 {% endblock %}
 
 {% block content %}
+<!-- Section A -->
+{% if questionsA %}
+<h2>Section A</h2>
+{% for question in questionsA %}
 
-{% if questions %}
-{% for question in questions %}
 
+<h4>{{forloop.counter}}.{{question.question}}</h4>
+
+{% for q in question.images.all %}
+<img src="{{ q.image.url }}" alt="img" width="250" />
+{% endfor %}
+
+<form method="POST" class="needs-validation" novalidate data-id="{{question.id}}">
+    {% csrf_token %}
+    {{ answer_form|crispy }}
+    <input type="button" class="btn btn-success next" value="Next" id="sub">
+</form>
+
+{% endfor %}
+
+{% else %}
+<h1> There might be some problem </h1>
+{% endif %}
+
+<!-- Section B -->
+{% if questionsB %}
+<h2>Section B</h2>
+
+{% for question in questionsB %}
 <h4>{{forloop.counter}}.{{question.question}}</h4>
 
 {% for q in question.images.all %}
