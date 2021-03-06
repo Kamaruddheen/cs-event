@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="POST" action="{% url 'question:prelm_question' %}">
+        {% csrf_token %}
+        {% for q in question %}
+        <p>{{q}}</p>
+        <div class="form-check">
+            <label for="option-1" class="form-check-label">
+                <input type="radio" class="form-check-input" id="option-1" name="{{q.id}}" value="{{q.option_A}}">
+                {{q.option_A}} 
+            </label>
+        </div>
+        <div class="form-check">
+            <label for="option-2" class="form-check-label">
+                <input type="radio" class="form-check-input" id="option-2" name="{{q.id}}" value="{{q.option_B}}">
+                {{q.option_B}} 
+            </label>
+        </div>
+        <div class="form-check">
+            <label for="option-3" class="form-check-label">
+                <input type="radio" class="form-check-input" id="option-3" name="{{q.id}}" value="{{q.option_C}}">
+                {{q.option_C}} 
+            </label>
+        </div>
+        <div class="form-check">
+            <label for="option-4" class="form-check-label">
+                <input type="radio" class="form-check-input" id="option-4" name="{{q.id}}" value="{{q.option_D}}">
+                {{q.option_D}} 
+            </label>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success float-right">Submit</button> 
+    </form>
+{% endblock %}

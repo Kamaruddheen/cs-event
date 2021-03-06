@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'livereload',  # livereload for development purpose only
+    #'livereload',  # livereload for development purpose only
     'django.contrib.staticfiles',
     'crispy_forms',
     'userapp',
+    'questions',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -54,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # livereload for development purpose only
-    'livereload.middleware.LiveReloadScript',
+    #'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'csevent.urls'
