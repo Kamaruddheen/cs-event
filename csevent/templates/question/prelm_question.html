@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form method="POST" action="{% url 'question:prelm_question' %}">
+    {% for q in question %}
+    <p>{{q}}</p>
+    <form method="POST" action="#" class="{{q.id}}">
         {% csrf_token %}
-        {% for q in question %}
-        <p>{{q}}</p>
         <div class="form-check">
             <label for="option-1" class="form-check-label">
                 <input type="radio" class="form-check-input" id="option-1" name="{{q.id}}" value="{{q.option_A}}">
@@ -28,7 +28,39 @@
                 {{q.option_D}} 
             </label>
         </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-success float-right">Submit</button> 
     </form>
+    <button type="button" class="btn btn-success float-right next">Next</button> 
+    {% endfor %}
+    <input type="submit" class="btn btn-success float-right" value="Submit">
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $(".next").click(function(){
+            //Question id
+            var q_id=$(this).prev().attr('class')
+            //Answer
+            var answer=$("input[name="+q_id+"]:checked").attr('value')
+            $.ajax({
+                headers: {
+                    "X-CSRFTOKEN": "{{ csrf_token }}",
+                    'contentType': 'application/json;charset=utf-8',
+                },
+                url: "{% url 'codetreasure:prelims' %}",
+                type: 'post',
+                data: { 'answer': answer, 'q_id': q_id },
+                dataType: 'json',
+                success: function (data) {
+                    if (data['save']=="something wrong") {
+                        alert("You have already attended this question");
+                    }
+                    else if(data['save']=="completed"){
+                        console.log("hello success")
+                    }
+                }
+            });
+        });
+
+        })
+</script>
 {% endblock %}

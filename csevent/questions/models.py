@@ -1,7 +1,7 @@
 from django.db import models
-
+from userapp.models import User
 # Create your models here.
-class question(models.Model):
+class question_model(models.Model):
     question = models.CharField(max_length=100)
     option_A = models.CharField(max_length=30)
     option_B = models.CharField(max_length=30)
@@ -13,8 +13,8 @@ class question(models.Model):
         return self.question
 
 class Stud_Res_CodeTreasure_Prelm(models.Model):
-    student=models.CharField(max_length=50)
-    question=models.ForeignKey(question,on_delete=models.CASCADE)
+    student=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    question=models.ForeignKey(question_model,on_delete=models.CASCADE)
     user_answer=models.CharField(max_length=30)
     status=models.BooleanField()
     when=models.DateTimeField(auto_now_add=True)

@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import *
-app_name='question'
+app_name='codetreasure'
 
 #Define your urls here
 urlpatterns=[
-    path('prelm_question/',prelm_question,name='prelm_question'),
+    path('prelims/',prelm_question,name='prelims'),
 ]
