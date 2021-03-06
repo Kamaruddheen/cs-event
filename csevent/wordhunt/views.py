@@ -11,8 +11,10 @@ def question_prelims_view(request):
     wordhunt_B = Wordhunt.objects.filter(roundtype="prelims", section="B")
     answer_form = Student_Answer(request.POST or None)
 
+    section = True
+
     context = {'questionsA': wordhunt_A, 'questionsB': wordhunt_B,
-               'answer_form': answer_form}
+               'answer_form': answer_form, 'section': section}
 
     return render(request, 'wordhunt/question.html', context)
 
@@ -22,8 +24,10 @@ def question_finals_view(request):
     wordhunt_B = Wordhunt.objects.filter(roundtype="final", section="B")
     answer_form = Student_Answer(request.POST or None)
 
+    section = False
+
     context = {'questionsA': wordhunt_A, 'questionsB': wordhunt_B,
-               'answer_form': answer_form}
+               'answer_form': answer_form, 'section': section}
 
     return render(request, 'wordhunt/question.html', context)
 

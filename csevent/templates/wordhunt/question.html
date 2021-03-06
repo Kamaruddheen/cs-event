@@ -2,7 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
+{% if section %}
 <title> Ransack | Round Prelims</title>
+{% else %}
+<title> Ransack | Round Final</title>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -10,7 +14,6 @@
 {% if questionsA %}
 <h2>Section A</h2>
 {% for question in questionsA %}
-
 
 <h4>{{forloop.counter}}.{{question.question}}</h4>
 
@@ -55,7 +58,7 @@
 
 <script>
     $(".next").click(function () {
-        // Answer
+        // Answer 
         var answer = $(this).parent().find("#id_user_answer").val();
         // Question id
         var question_id = $(this).parent().attr('data-id');
@@ -75,7 +78,6 @@
                 }
             }
         });
-
     });
 </script>
 
