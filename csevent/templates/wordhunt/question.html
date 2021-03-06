@@ -16,10 +16,10 @@
 <img src="{{ q.image.url }}" alt="img" width="250" />
 {% endfor %}
 
-<form method="POST" class="needs-validation" novalidate id="ques_form{{question.id}}">
+<form method="POST" class="needs-validation" novalidate data-id="{{question.id}}">
     {% csrf_token %}
-    {{answer_form|crispy}}
-    <input type="submit" class="btn btn-success" value="Submit" form="ques_form{{question.id}}">
+    {{ answer_form|crispy }}
+    <input type="button" class="btn btn-success next" value="Next" id="sub">
 </form>
 
 {% endfor %}
@@ -28,6 +28,30 @@
 <h1> There might be some problem </h1>
 {% endif %}
 
+<script>
+    $(".next").click(function () {
+        // Answer
+        var answer = $(this).parent().find("#id_user_answer").val();
+        // Question id
+        var question_id = $(this).parent().attr('data-id');
 
+        $.ajax({
+            headers: {
+                "X-CSRFTOKEN": "{{ csrf_token }}",
+                'contentType': 'application/json;charset=utf-8',
+            },
+            url: "{% url 'wordhunt:answer_submit_prelims' %}",
+            type: 'post',
+            data: { 'answer': answer, 'question_id': question_id },
+            dataType: 'json',
+            success: function (data) {
+                if (data.is_taken) {
+                    alert("You have already attended this question");
+                }
+            }
+        });
+
+    });
+</script>
 
 {% endblock %}
