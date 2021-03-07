@@ -10,4 +10,5 @@ urlpatterns = [
     path('impreza/logo/prelims/', logo_prelims, name='logo_prelims'),
     path('impreza/logo/finals/', logo_finals, name='logo_finals'),
     path('success/', success, name='success'),
+    path('verify/metadata/', verify_meta_img, name="verify_meta"),
 ]

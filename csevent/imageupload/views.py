@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 
 from .models import *
@@ -9,16 +9,14 @@ from .image import meta_data
 # Poster Prelims
 def poster_prelims(request):
     form = PosterForm()
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST':
         form = PosterForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.student = request.user
             obj.status = False
             obj.roundtype = "prelims"
-            # meta_data()
             obj.save()
-            # call the meta_data() function here with the image location and store it in the status field.
             return redirect('imageupload:success')
     return render(request, 'imageupload/poster.html', {'form': form})
 
@@ -26,21 +24,19 @@ def poster_prelims(request):
 # Poster Finals
 def poster_finals(request):
     form = PosterForm()
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST':
         form = PosterForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.student = request.user
             obj.status = False
             obj.roundtype = "final"
-            # meta_data()
             obj.save()
-            # call the meta_data() function here with the image location and store it in the status field.
             return redirect('imageupload:success')
     return render(request, 'imageupload/poster.html', {'form': form})
 
 
-# Logo
+# Logo Prelims
 def logo_prelims(request):
     form = LogoForm()
     if request.method == 'POST':
@@ -57,6 +53,7 @@ def logo_prelims(request):
     return render(request, 'imageupload/logo.html', {'form': form})
 
 
+# Logo Finals
 def logo_finals(request):
     form = LogoForm()
     if request.method == 'POST':
@@ -76,6 +73,16 @@ def logo_finals(request):
 #  Status
 def success(request):
     return HttpResponse('successfully uploaded')
+
+
+def verify_meta_img(request):
+    Result = Poster.objects.all()
+
+    print()
+
+    context = {'form': True}
+
+    return render(request, 'imageupload/logo.html', context)
 
 
 # def display_logo(request):

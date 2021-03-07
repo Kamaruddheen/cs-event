@@ -38,6 +38,7 @@ def answer_submit(request):
     student = request.user
     question_id = request.POST.get('question_id', None)
     question_obj = get_object_or_404(Wordhunt, id=question_id)
+    actual_answer = (request.POST.get('answer', None)).lower()
     value = ((request.POST.get('answer', None)).lower()).replace(" ", "")
 
     if question_obj.correct_answer.lower() == value:
@@ -49,8 +50,12 @@ def answer_submit(request):
         messages.info(request, "You have already attended this question")
     else:
         student_final_answer = Stud_Res_WordHunt.objects.create(
-            student=student, question=question_obj, user_answer=value, status=status)
+            student=student, question=question_obj, user_answer=actual_answer, status=status)
 
     data = {
         'is_taken': attended}
     return JsonResponse(data)
+
+
+def export_report(request):
+    prelims_result = Stud_Res_WordHunt.objects.all()

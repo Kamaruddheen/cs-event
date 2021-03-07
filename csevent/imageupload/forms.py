@@ -22,3 +22,6 @@ class PosterForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['poster'].label = "Upload your Poster"
+
+    def clean_poster(self):
+        pass
