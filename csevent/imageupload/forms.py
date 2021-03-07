@@ -17,6 +17,17 @@ class LogoForm(ModelForm):
         self.fields['description'].required = False
 
 
+class LogoFinalForm(ModelForm):
+
+    class Meta:
+        model = Logo
+        fields = ['logo']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['logo'].label = "Upload your Logo"
+
+
 class PosterForm(ModelForm):
 
     class Meta:

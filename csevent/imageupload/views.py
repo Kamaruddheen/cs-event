@@ -70,14 +70,14 @@ def logo_prelims(request):
 
 # Logo Finals
 def logo_finals(request):
-    form = LogoForm()
+    form = LogoFinalForm()
     if request.method == 'POST':
         if Logo.objects.filter(student=request.user, roundtype="final").exists():
             messages.info(
                 request, "You have already uploaded your Documnet")
             return redirect('imageupload:logo_finals')
         else:
-            form = LogoForm(request.POST, request.FILES)
+            form = LogoFinalForm(request.POST, request.FILES)
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.student = request.user
