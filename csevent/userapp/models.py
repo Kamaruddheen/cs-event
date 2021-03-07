@@ -2,8 +2,6 @@ from django.db import models
 
 from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.conf import settings
 
 
@@ -56,7 +54,8 @@ class StudentModel(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
-        limit_choices_to=models.Q(user_type=3))
+        limit_choices_to=models.Q(user_type=3),
+        related_name='student')
     college = models.CharField(max_length=60)
     dept = models.CharField(max_length=50)
     roll_no = models.CharField(max_length=15)
@@ -66,16 +65,3 @@ class StudentModel(models.Model):
 
     class Meta:
         verbose_name = 'Student'
-
-
-# DO WE NEED THIS
-
-# @receiver(post_save, sender=User)
-# def create_user_studentmodel(sender, instance, created, **kwargs):
-#     if created and instance.user_type == 3:
-#         StudentModel.objects.create(user=instance)
-
-# @receiver(post_save, sender=User)
-# def save_user_studentmodel(sender, instance, **kwargs):
-# 	if instance.user_type == 3:
-# 		instance.studentmodel.save()
