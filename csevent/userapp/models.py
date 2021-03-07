@@ -59,9 +59,13 @@ class StudentModel(models.Model):
     college = models.CharField(max_length=60)
     dept = models.CharField(max_length=50)
     roll_no = models.CharField(max_length=15)
-    id_proof = models.ImageField(upload_to="Student_id")
+    id_proof = models.ImageField(
+        upload_to="Student_id", help_text="Don't have Id Card, then get signature from your college")
     profile_pic = models.ImageField(upload_to="Student_pic")
-    bonafide = models.FileField(upload_to="Student_bonafide")  # optional
+    bonafide = models.FileField(
+        upload_to="Student_bonafide")  # optional
+    college_address = models.TextField(max_length=150)
+    address = models.TextField(max_length=150)
 
     class Meta:
         verbose_name = 'Student'
