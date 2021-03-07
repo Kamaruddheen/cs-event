@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'userapp',
     'wordhunt',
-    'imageupload'
+    'imageupload',
+    'codetreasure',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

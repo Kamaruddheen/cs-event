@@ -64,6 +64,9 @@ class StudentModel(models.Model):
     profile_pic = models.ImageField(upload_to="Student_pic")
     bonafide = models.FileField(upload_to="Student_bonafide")  # optional
 
+    class Meta:
+        verbose_name = 'Student'
+
 
 # DO WE NEED THIS
 

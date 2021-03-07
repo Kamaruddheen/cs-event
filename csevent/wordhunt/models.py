@@ -16,7 +16,7 @@ class Wordhunt(models.Model):
     roundtype = models.CharField(max_length=8, choices=roundtype_choice)
 
     class Meta:
-        verbose_name = 'Wordhunt'
+        verbose_name = 'Question'
 
 
 # Student Result for WordHunt Prelims & Final

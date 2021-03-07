@@ -5,7 +5,7 @@
 {% if section %}
 <title> Ransack | Round Prelims</title>
 {% else %}
-<title> Ransack | Round Final</title>
+<title> Ransack | Round Finals</title>
 {% endif %}
 {% endblock %}
 
@@ -55,7 +55,9 @@
 {% else %}
 <h1> There might be some problem </h1>
 {% endif %}
+{% endblock %}
 
+{% block script %}
 <script>
     $(".next").click(function () {
         // Answer 
