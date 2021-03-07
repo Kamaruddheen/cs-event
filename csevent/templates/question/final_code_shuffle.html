@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>
+    Consider the given program, guess it and arrange the shuffled parts to get a proper code:
+</h3>
+{% for q in queryset %}
+<p>Question 1:</p>
+   {% for q1 in q.question.all %}
+       <img src="{{q1.image.url}}">
+    {% endfor %}
+<input type="text" class="form-control" placeholder="Enter your answers here...">
+<button type="button" class="btn btn-success float-right next" data-question="{{q.id}}">Next</button>
+{% endfor %}
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $(".next").click(function(){
+            //Question id
+            var q_id=$(this).attr('data-question')
+            //Answer id
+            var answer=$(this).prev().val()
+            if(answer.length==0){
+                alert("Please fill the answer otherwise you can't go to the next page")
+            }
+            else{
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'codetreasure:final_code_shuffle_function' %}",
+                    type: 'post',
+                    data: { 'answer': answer, 'q_id': q_id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result']=="already entered") {
+                            alert("You have already attended this question");
+                        }
+                        else if(data['result']=="success"){
+                            console.log("hello success")
+                        }
+                    }
+                });
+            }
+            
+        });
+    });
+</script>
+{% endblock %}

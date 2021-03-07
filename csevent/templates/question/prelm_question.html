@@ -41,26 +41,33 @@
             var q_id=$(this).prev().attr('class')
             //Answer
             var answer=$("input[name="+q_id+"]:checked").attr('value')
-            $.ajax({
-                headers: {
-                    "X-CSRFTOKEN": "{{ csrf_token }}",
-                    'contentType': 'application/json;charset=utf-8',
-                },
-                url: "{% url 'codetreasure:prelims' %}",
-                type: 'post',
-                data: { 'answer': answer, 'q_id': q_id },
-                dataType: 'json',
-                success: function (data) {
-                    if (data['save']=="something wrong") {
-                        alert("You have already attended this question");
+            if(answer==null){
+                //length property does not work for undefined object so check '==null' because undefined==null is true
+                alert("Please fill the answer otherwise you can't go to the next page")
+            }
+            else{
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'codetreasure:prelims' %}",
+                    type: 'post',
+                    data: { 'answer': answer, 'q_id': q_id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['save']=="something wrong") {
+                            alert("You have already attended this question");
+                        }
+                        else if(data['save']=="completed"){
+                            console.log("hello success")
+                        }
                     }
-                    else if(data['save']=="completed"){
-                        console.log("hello success")
-                    }
-                }
-            });
+                });
+            }
+            
         });
 
-        })
+    });
 </script>
 {% endblock %}
