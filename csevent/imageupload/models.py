@@ -7,7 +7,10 @@ class Logo(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     logo = models.ImageField(upload_to='Logo')
     status = models.BooleanField()
-    # round_type
+    roundtype_choice = (('prelims', 'Prelims'), ('final', 'Finals'))
+    roundtype = models.CharField(
+        max_length=8, choices=roundtype_choice)
+    description = models.TextField(max_length=430)
     date_time = models.DateTimeField(auto_now_add=True)
 
 

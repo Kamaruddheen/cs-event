@@ -19,7 +19,7 @@ def poster_prelims(request):
             # meta_data()
             obj.save()
             # call the meta_data() function here with the image location and store it in the status field.
-            return redirect('success')
+            return redirect('imageupload:success')
     return render(request, 'imageupload/poster.html', {'form': form})
 
 
@@ -36,12 +36,12 @@ def poster_finals(request):
             # meta_data()
             obj.save()
             # call the meta_data() function here with the image location and store it in the status field.
-            return redirect('success')
+            return redirect('imageupload:success')
     return render(request, 'imageupload/poster.html', {'form': form})
 
 
 # Logo
-def logo(request):
+def logo_prelims(request):
     form = LogoForm()
     if request.method == 'POST':
         form = LogoForm(request.POST, request.FILES)
@@ -50,9 +50,26 @@ def logo(request):
             obj = form.save(commit=False)
             obj.student = request.user
             obj.status = False
+            obj.roundtype = "prelims"
             # meta_data()
             obj.save()
-            return redirect('success')
+            return redirect('imageupload:success')
+    return render(request, 'imageupload/logo.html', {'form': form})
+
+
+def logo_finals(request):
+    form = LogoForm()
+    if request.method == 'POST':
+        form = LogoForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.student = request.user
+            obj.status = False
+            obj.roundtype = "final"
+            # meta_data()
+            obj.save()
+            return redirect('imageupload:success')
     return render(request, 'imageupload/logo.html', {'form': form})
 
 
