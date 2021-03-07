@@ -7,8 +7,6 @@ from django.dispatch import receiver
 from django.conf import settings
 
 
-# Create your models here.
-
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -38,8 +36,6 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
-# Create your models here.
-
 
 class User(AbstractUser):
     username = None
@@ -64,6 +60,9 @@ class StudentModel(models.Model):
     college = models.CharField(max_length=60)
     dept = models.CharField(max_length=50)
     roll_no = models.CharField(max_length=15)
+    id_proof = models.ImageField(upload_to="Student_id")
+    profile_pic = models.ImageField(upload_to="Student_pic")
+    bonafide = models.FileField(upload_to="Student_bonafide")  # optional
 
 
 # DO WE NEED THIS

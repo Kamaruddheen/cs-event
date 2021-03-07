@@ -3,7 +3,7 @@ from userapp.models import User
 
 
 class Images(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to="Wordhunt/")
 
 
 # Question for WordHunt Prelims & Final

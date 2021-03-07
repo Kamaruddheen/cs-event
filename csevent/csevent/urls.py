@@ -25,7 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage, name="homepage"),
     path('account/', include('userapp.urls')),
-    path('ransack/', include('wordhunt.urls')),
+    path('events/ransack/', include('wordhunt.urls')),
+    path('events/', include('imageupload.urls')),
 ]
 
 
