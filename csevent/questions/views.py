@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import *
 # Create your views here.
 def prelm_question(request):
@@ -45,8 +46,20 @@ def final_binary_function(request):
             user_answer=request.POST.get('answer','something wrong')
             final_answer_relation.objects.create(student=student,final_code_binary_question=question,user_answer=user_answer)
             return JsonResponse({'result':'success'})
-    question_set=final_code_binary_question.objects.all().order_by('?')
-    return render(request,'question/final_binary.html',{'question_set':question_set})
+    page_no=request.GET.get('page',1)
+    print("hello",page_no)
+    question_set=final_code_binary_question.objects.all()
+    pages=Paginator(question_set,1)
+    try:
+        page=pages.page(page_no)
+    except EmptyPage:
+        page=pages.page(pages.num_pages)
+    except PageNotAnInteger:
+        page=pages.page(1)
+    return render(request,'question/final_binary.html',{'page':page,'pages':pages})
+
+def last_binary_question(request):
+    return HttpResponse('successful test completion')
 
 def final_spot_error_function(request):
     if request.method=='POST':
