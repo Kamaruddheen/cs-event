@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    {% csrf_token %}
+
+</form>
+{% endblock %}
