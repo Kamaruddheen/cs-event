@@ -44,8 +44,8 @@ def demo_link(request):
 
 
 def register_codetreasure(request):
-    stu_obj = StudentModel.objects.update(
-        user=request.user, is_codetreasure=True)
+    # stu_obj = StudentModel.objects.update(
+    #     user=request.user, is_codetreasure=True)
     return render(request, "userapp/event_register.html")
 
 

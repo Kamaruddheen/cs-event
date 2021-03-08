@@ -2,6 +2,8 @@
 # crispy-tailwind==0.3.0
 Django==3.1.7
 django-crispy-forms==1.11.1
+Django-Verify-Email==0.0.5
+Pillow==8.1.2
 pyexiftool==0.1.1
 Django-Verify-Email==0.0.5
 # Not Needed for Hosting
