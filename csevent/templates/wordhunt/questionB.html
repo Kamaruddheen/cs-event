@@ -16,16 +16,14 @@
 
 {% for question in page.object_list %}
 
-<h4>{{forloop.counter}}.{{question.question}}</h4>
-
 {% for q in question.images.all %}
 <img src="{{ q.image.url }}" alt="img" width="250" />
 {% endfor %}
 
-<form method="POST" class="needs-validation" novalidate data-id="{{question.id}}">
+<form method="POST" data-id="{{question.id}}">
     {% csrf_token %}
     {{ answer_form|crispy }}
-    <button class="btn btn-success float-right submit_button" data-question="{{question.id}}">Submit</button>
+    <button type="button" class="btn btn-success float-right submit_button" data-question="{{question.id}}">Submit</button>
     {% if page.has_next %}
     <a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
         style="pointer-events: none;cursor:default;">Next</a>
@@ -51,7 +49,6 @@
 
         $(window).focus(function () {
             count = count + 1
-            console.log(count);
             if (count === 1) {
                 alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 1");
             }
@@ -60,10 +57,25 @@
             }
             else {
                 alert("Exam Over!!!!!!");
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'wordhunt:exit_test' %}",
+                    type: 'post',
+                    success: function (data) {
+                        if (data.is_taken) {
+                            alert("Getting")
+                            window.close();
+                            close();
+                        }
+                    }
+                });
             }
         });
 
-        $(".next").click(function () {
+        $(".submit_button").click(function () {
             // Answer 
             var answer = $(this).parent().find("#id_user_answer").val();
             // Question id
@@ -79,7 +91,8 @@
                 data: { 'answer': answer, 'question_id': question_id },
                 dataType: 'json',
                 success: function (data) {
-                    if (data.is_taken) {
+                    if (data['is_taken']=="success") {
+                        alert("already entered")
                         $('.next').removeAttr("style")
                     }
                     else {

@@ -16,22 +16,19 @@
 
 {% for question in page.object_list %}
 
-<h4>{{forloop.counter}}.{{question.question}}</h4>
-
 {% for q in question.images.all %}
 <img src="{{ q.image.url }}" alt="img" width="250" />
 {% endfor %}
 
-<form method="POST" class="needs-validation" novalidate data-id="{{question.id}}">
+<form method="POST" data-id="{{question.id}}">
     {% csrf_token %}
     {{ answer_form|crispy }}
-    <button class="btn btn-success float-right submit_button" data-question="{{question.id}}">Submit</button>
+    <!--If you don't put type attribute it will take it as submit type by default and refreshes the form-->
+    <button type="button" class="btn btn-success float-right submit_button" data-question="{{question.id}}">Submit</button>
     {% if page.has_next %}
-    <a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
-        style="pointer-events: none;cursor:default;">Next</a>
+    <a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next" style="pointer-events:none ; cursor:default">Next</a>
     {% else %}
-    <a href="{% url 'codetreasure:final_spot_error_function' %}" class="btn btn-primary float-right next"
-        style="pointer-events:none;cursor:default">Next</a>
+    <a href="{% url 'wordhunt:prelimsB' %}" class="btn btn-primary float-right next" style="pointer-events:none ; cursor:default">Next</a>
     {% endif %}
 </form>
 
@@ -52,7 +49,6 @@
 
         $(window).focus(function () {
             count = count + 1
-            console.log(count);
             if (count === 1) {
                 alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 1");
             }
@@ -61,6 +57,21 @@
             }
             else {
                 alert("Exam Over!!!!!!");
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'wordhunt:exit_test' %}",
+                    type: 'post',
+                    success: function (data) {
+                        if (data.is_taken) {
+                            alert("Getting")
+                            window.close();
+                            close();
+                        }
+                    }
+                });
             }
         });
 
@@ -80,13 +91,13 @@
                 data: { 'answer': answer, 'question_id': question_id },
                 dataType: 'json',
                 success: function (data) {
-                    if (data.is_taken) {
-                        alert("Submitted susfu");
-                        $('.next').removeAttr("style")
+                    if (data['is_taken']) {
+                        alert("already submitted");
+                        $(".next").removeAttr("style");
                     }
                     else {
                         alert("Submitted successfully");
-                        $('.next').removeAttr("style")
+                        $(".next").removeAttr("style");
                     }
                 }
             });
