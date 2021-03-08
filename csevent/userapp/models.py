@@ -3,6 +3,7 @@ from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
+from django.db.models.fields import BooleanField
 
 
 class UserManager(BaseUserManager):
@@ -66,6 +67,12 @@ class StudentModel(models.Model):
         upload_to="Student_bonafide")  # optional
     college_address = models.TextField(max_length=150)
     address = models.TextField(max_length=150)
+    # Events selected
+    is_ransack = BooleanField(default=False)
+    is_codetreasure = BooleanField(default=False)
+    is_impreza = BooleanField(default=False)
+    is_webdodger = BooleanField(default=False)
+    is_geekspeak = BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Student'

@@ -24,3 +24,38 @@ def signup(request):
     }
 
     return render(request, 'userapp/registration.html', context=content)
+
+
+# Registration Page
+def event_register(request):
+    return render(request, "userapp/event_register.html")
+
+
+def register_codetreasure(request):
+    stu_obj = StudentModel.objects.update(
+        user=request.user, is_codetreasure=True)
+    return render(request, "userapp/event_register.html")
+
+
+def register_impreza(request):
+    stu_obj = StudentModel.objects.update(
+        user=request.user, is_impreza=True)
+    return render(request, "userapp/event_register.html")
+
+
+def register_webdodger(request):
+    stu_obj = StudentModel.objects.update(
+        user=request.user, is_webdodger=True)
+    return render(request, "userapp/event_register.html")
+
+
+def register_ransack(request):
+    stu_obj = StudentModel.objects.update(
+        user=request.user, is_ransack=True)
+    return render(request, "userapp/event_register.html")
+
+
+def register_geekspeak(request):
+    stu_obj = StudentModel.objects.update(
+        user=request.user, is_geekspeak=True)
+    return render(request, "userapp/event_register.html")

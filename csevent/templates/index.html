@@ -23,7 +23,9 @@
 
 <body>
     {% block content %}
-    	<h1>This is Working</h1>
+    <h1>This is Working</h1>
+    <a class="btn btn-primary" href="{% url 'signup' %}" role="button">Student Registration</a>
+    <a class="btn btn-primary" href="{% url 'event_register' %}" role="button">Event Registration</a>
     {% endblock %}
 </body>
 
