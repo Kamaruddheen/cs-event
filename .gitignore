@@ -2,3 +2,6 @@
 *.pyc
 # Vscode custome settings
 .vscode
+/1500ppi
+/white
+/transparent bg

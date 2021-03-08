@@ -1,30 +1,128 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <title>Home</title>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Computer Science Department Event - 2021">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Bootstrap JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
-    <!-- Custom Css -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-</head>
+{% block content %}
 
-<body>
-    {% block content %}
-    	<h1>This is Working</h1>
-    {% endblock %}
-</body>
+<nav class="navbar navbar-expand-sm navbar-light mx-0 w-100 bg-white">
+        <a href="#" class="navbar-brand">
+          <img
+            class="rounded-lg inline-block"
+            src="{% static 'img/cf_logo2.png' %}"
+            alt="cf logo"
+            style="width: 120px; height: auto;"
+          />
+        </a>
+        <!-- Toggler/collapsibe Button -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#menubar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="menubar">
+          <ul class="navbar-nav">
+            <li class="nav-item px-3">
+              <a href="{% url 'homepage' %}" class="nav-link active">Home</a>
+            </li>
+            <li class="nav-item px-3">
+              <a href="#" class="nav-link">Link </a>
+            </li>
+            <li class="nav-item px-3">
+              <a href="#" class="nav-link">Link</a>
+            </li>
+            <li class="nav-item px-3">
+              <a
+                class="btn bg-indigo-500 hover:bg-purple-500 text-white px-6" href="{% url 'login' %}"
+              >
+                Login
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-</html>
+<div class="row flex-grow-1" id="back-img">
+        <div class="col-12 col-lg-7 text-center my-auto pb-md-5 pb-3">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="dis-1 merienda text-indigo-600 ">Crest Fest 2K21</h2>
+              <p class="merienda text-pink-500">"A Virtual Inter-College Tech Festival by PSG CAS.<br>Department of Computer Science (UA)"</p>
+            </div>
+            <div class="col-12  mt-4 my-3">
+              <p class="text-xl text-indigo-600">Registration Starts on <span class="merienda text-pink-500">March 10th, 2021</span></p>
+            </div>
+            <div
+              class="col-12 col-md-6 shadow mx-auto rounded-xl varela text-indigo-600 border-2 border-pink-500"
+            >
+              <div class="d-flex md:font-semibold justify-content-around py-3">
+                <div class=""><span id="day-id">04</span><br />Days</div>
+                <div class="">:</div>
+                <div class=""><span id="hour-id">16</span><br />Hours</div>
+                <div class="">:</div>
+                <div class=""><span id="min-id">32</span><br />Minutes</div>
+                <div class="">:</div>
+                <div class=""><span id="sec-id">53</span><br />Seconds</div>
+              </div>
+            </div>
+            <div class="col-12 mt-5 font-semibold">
+              <a href="{% url 'signup' %}" 
+                class="btn btn-disabled text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2"
+              >
+                Register
+              </a>
+              <a href="#events-div"
+                class="btn border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-500 hover:text-white focus:ring-4 focus:ring-indigo-300 px-4 mx-2"
+              >
+                View Events
+            </a>
+            </div>
+          </div>
+        </div>
+        <div class="hidden lg:block col-12 col-md-5 pb-md-5 pb-3" id="landing-im">
+          <img
+            class="absolute inset-y-0 right-0 z-0"
+            src="{% static 'img/top_right_bg.png' %}"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid bg-gray-50 my-3 py-3 px-md-5" id="events-div">
+      <h1 class="text-5xl text-indigo-500 text-center noto">Events</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 my-4 z-10">
+        <div class="bg-white shadow-xl relative rounded-3xl">
+            <img class=" mx-auto" style="width:100%;height:auto;" src="{% static 'img/geekspeak_logo.png' %}"/>
+            <h2 class="text-2xl text-center text-purple-600 font-semibold my-2 noto">Geek Speak</h2>
+            <p class="px-3 text-justify text-gray-400 py-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam laborum atque adipisci omnis labore veniam ullam, modi ad illum architecto! Expedita, obcaecati dolorum tempora libero neque temporibus nulla totam unde!</p>
+            <button class="btn mx-auto d-flex mb-3 bg-pink-500 rounded-full shadow-md text-white hover:bg-pink-600 focus:ring-2 focus:ring-pink-300">View Details</button>
+        </div>
+        <div class="bg-white shadow-xl rounded-3xl">
+            <img class="rounded-3xl" style="width:100%;height:auto;" src="{% static 'img/ransack_logo.png' %}"/>
+            <h2 class="text-2xl text-center text-purple-600 font-semibold my-3 noto">Ransack</h2>
+            <p class="px-3 text-justify text-gray-400 py-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam laborum atque adipisci omnis labore veniam ullam, modi ad illum architecto! Expedita, obcaecati dolorum tempora libero neque temporibus nulla totam unde!</p>
+            <button class="btn mx-auto d-flex mb-3 bg-pink-500 rounded-full shadow-md text-white hover:bg-pink-600 focus:ring-2 focus:ring-pink-300">View Details</button>
+        </div>
+        <div class="bg-white shadow-xl rounded-3xl z-20">
+            <img class="" style="width:100%;height:auto;" src="{% static 'img/code_treasure_logo.png' %}"/>
+            <h2 class="text-2xl text-center text-purple-600 font-semibold my-3 noto">Code Treasure</h2>
+            <p class="px-3 text-justify text-gray-400 py-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam laborum atque adipisci omnis labore veniam ullam, modi ad illum architecto! Expedita, obcaecati dolorum tempora libero neque temporibus nulla totam unde!</p>
+            <button class="btn mx-auto d-flex mb-3 bg-pink-500 rounded-full shadow-md text-white hover:bg-pink-600 focus:ring-2 focus:ring-pink-300">View Details</button>
+        </div>
+        <div class="bg-white shadow-xl rounded-3xl">
+            <img class="rounded3-xl mx-auto" style="width:100%;height:auto;" src="{% static 'img/Impreza_logo.png' %}"/>
+            <h2 class="text-2xl text-center text-purple-600 font-semibold my-3 noto">Impreza</h2>
+            <p class="px-3 text-justify text-gray-400 py-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam laborum atque adipisci omnis labore veniam ullam, modi ad illum architecto! Expedita, obcaecati dolorum tempora libero neque temporibus nulla totam unde!</p>
+            <button class="btn mx-auto d-flex mb-3 bg-pink-500 rounded-full shadow-md text-white hover:bg-pink-600 focus:ring-2 focus:ring-pink-300">View Details</button>
+        </div>
+        <div class="bg-white shadow-xl rounded-3xl">
+            <h2 class="text-2xl text-center text-purple-600 font-semibold my-3 noto">Web Dodger</h2>
+            <img class="" style="width:100%;height:auto;;" src="{% static 'img/web_dodger_logo.png' %}"/>
+            <p class="px-3 text-justify text-gray-400 py-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam laborum atque adipisci omnis labore veniam ullam, modi ad illum architecto! Expedita, obcaecati dolorum tempora libero neque temporibus nulla totam unde!</p>
+            <button class="btn mx-auto d-flex mb-3 bg-pink-500 rounded-full shadow-md text-white hover:bg-pink-600 focus:ring-2 focus:ring-pink-300">View Details</button>
+        </div>
+      </div>
+      </div>
+{% endblock %}

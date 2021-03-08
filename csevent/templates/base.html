@@ -12,6 +12,8 @@
     <meta name="description" content="Computer Science Department Event - 2021">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- Tailwind css -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap JavaScript -->
@@ -19,18 +21,27 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merienda&family=Noto+Serif&family=Varela+Round&display=swap" rel="stylesheet">
     <!-- Custom Css -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- Custom Script -->
+    <script src="{% static 'js/script.js' %}"></script>
 </head>
 
 <body>
     <header>
         {% include 'messages.html' %}
-
+        {% include 'navbar.html' %}
     </header>
-    {% block content %}
-    <h1>This is Working</h1>
-    {% endblock %}
+    <div class="container-fluid px-0 d-flex flex-column" style="min-height: 100vh;">
+      
+
+      {% block content %}
+            <h1>This is Working</h1>
+      {% endblock %}
+    </div>
 
     {% block script %}
     {% endblock %}

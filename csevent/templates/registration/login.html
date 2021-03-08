@@ -4,13 +4,20 @@
 
 {% block content %}
 
-<section class="container">
-	<h2 class="text-center">Customer Login Page</h2>
+<section class="container-fluid d-flex flex-grow-1 pt-5">
+	<div class="my-auto mx-auto col-12 col-md-5 card px-4 pb-5 pt-2 border-1 rounded-3xl shadow-xl text-indigo-700">
+	<h2 class="text-center">Student Login</h2>
 	<form method="POST">
 		{% csrf_token %}
 		{{ form|crispy }}
-		<input type="submit" name="submit" class="btn btn-success">
+		<div class="input-group mb-3">
+			<a href="{% url 'signup' %}" class="mr-2"> Create new account!</a><a href="{% url 'password_reset' %}">Forgot Password ?</a>  
+		</div>
+		<div class="input-group">
+			<input type="submit" value="Login" class="btn btn-block text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-3 mx-auto">
+		</div>
 	</form>
+</div>
 </section>
 
 {% endblock %}

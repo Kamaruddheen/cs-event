@@ -3,14 +3,16 @@
 
 
 {% block content %}
-<div class="container mx-md-3">
-    <div class="text-center">
-        <h3 class="m-0">Student Registration Form</h3>
-    </div>
+<div class="container-fluid mt-5 pt-5 bg-gradient-to-r from-indigo-400 to-purple-600">
     <form method="POST" class="form needs-validation" enctype="multipart/form-data" autocomplete="off" novalidate>
         {% csrf_token %}
-        <div class="form-row" id="create_staff">
-            <h3>Personal Details :</h3>
+    <div class="text-center">
+        <h2 class="m-0 text-white">Student Registration Form</h2>
+    </div>
+    <div class="grid grid-cols-1 col-6 mx-auto my-4 gap-10">
+        <div class="rounded-3xl shadow p-4 bg-white text-indigo-500">
+            <h3 class="text-center">Personal Details</h3>
+            <div class="form-row" id="create_staff">
             <div class="form-group col-md-12">
                 {{ form1.profile_pic|as_crispy_field }}
             </div>
@@ -32,10 +34,12 @@
             <div class="form-group col-md-6 pl-md-2">
                 {{ form.confirm_password|as_crispy_field }}
             </div>
-            <div class="form-group col-md-6 pr-md-2">
+            <div class="form-group col-12 pr-md-2">
                 {{ form1.address|as_crispy_field }}
             </div>
-            <h3>Student Details :</h3>
+            </div>
+            <h3 class="text-center">Student Details</h3>
+            <div class="form-row" id="">
             <div class="form-group col-md-6 pr-md-2">
                 {{ form1.college|as_crispy_field }}
             </div>
@@ -55,11 +59,13 @@
                 {{ form1.bonafide|as_crispy_field }}
             </div>
             <div class="form-group col-12 d-flex justify-content-center justify-content-md-start">
-                <button class="btn btn-success" type="submit">
+                <button class="btn mx-auto text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2" type="submit">
                     Register
                 </button>
             </div>
         </div>
+        </div>
+    </div>
     </form>
 </div>
 {% endblock %}
