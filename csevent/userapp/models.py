@@ -43,7 +43,8 @@ class User(AbstractUser):
     mobile = models.CharField(
         unique=True, max_length=10, null=True, blank=False)
     user_type_choice = ((1, 'Admin'), (2, 'Staff'), (3, 'Students'))
-    user_type = models.PositiveSmallIntegerField(choices=user_type_choice)
+    user_type = models.PositiveSmallIntegerField(choices=user_type_choice, default=3
+                                                 )
 
     objects = UserManager()
 

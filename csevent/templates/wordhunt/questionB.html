@@ -23,7 +23,8 @@
 <form method="POST" data-id="{{question.id}}">
     {% csrf_token %}
     {{ answer_form|crispy }}
-    <button type="button" class="btn btn-success float-right submit_button" data-question="{{question.id}}">Submit</button>
+    <button type="button" class="btn btn-success float-right submit_button"
+        data-question="{{question.id}}">Submit</button>
     {% if page.has_next %}
     <a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
         style="pointer-events: none;cursor:default;">Next</a>
@@ -80,27 +81,32 @@
             var answer = $(this).parent().find("#id_user_answer").val();
             // Question id
             var question_id = $(this).attr('data-question');
+            if (answer.length == 0) {
+                alert("Please fill the answer otherwise you can't go to the next page")
+            }
+            else {
 
-            $.ajax({
-                headers: {
-                    "X-CSRFTOKEN": "{{ csrf_token }}",
-                    'contentType': 'application/json;charset=utf-8',
-                },
-                url: "{% url 'wordhunt:answer_submit_prelims' %}",
-                type: 'post',
-                data: { 'answer': answer, 'question_id': question_id },
-                dataType: 'json',
-                success: function (data) {
-                    if (data['is_taken']=="success") {
-                        alert("already entered")
-                        $('.next').removeAttr("style")
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'wordhunt:answer_submit_prelims' %}",
+                    type: 'post',
+                    data: { 'answer': answer, 'question_id': question_id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['is_taken'] == "success") {
+                            alert("already entered")
+                            $('.next').removeAttr("style")
+                        }
+                        else {
+                            alert("Submitted successfully");
+                            $('.next').removeAttr("style")
+                        }
                     }
-                    else {
-                        alert("Submitted successfully");
-                        $('.next').removeAttr("style")
-                    }
-                }
-            });
+                });
+            }
         });
     });
 </script>

@@ -8,7 +8,7 @@
 <h2>Question 1 :</h2>
 
 {% for q1 in p.question.all %}
-<img src="{{q1.image.url}}">
+<img src="{{q1.image.url}}" alt="img" width="500">
 {% endfor %}
 
 <textarea rows="10" placeholder="Enter the spotted lines" class="form-control"></textarea>

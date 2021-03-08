@@ -20,6 +20,8 @@ urlpatterns = [
          name='password_reset_complete'),
     # SignUp Form
     path('registration/', signup, name="signup"),
+    # Myaccount (Edit)
+    path('myaccount/', myaccount, name="myaccount"),
     # Events Register
     path('event_register/', event_register, name="event_register"),
     # 4 Events only 1 offline-mail
@@ -29,4 +31,9 @@ urlpatterns = [
     path('event_register/impreza/', register_impreza, name="register_impreza"),
     path('event_register/webdodger/',
          register_webdodger, name="register_webdodger"),
+
+
+    # Dummy for Demo
+    path('demo/', demo_link, name="demo"),
+
 ]

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Prelims</h2>
+<br>
+<a class="btn btn-primary" href="{% url 'wordhunt:prelims' %}" role="button">ransack Test</a>
+<a class="btn btn-primary" href="{% url 'codetreasure:prelims' %}" role="button">codetreasure Test</a>
+<a class="btn btn-primary" href="{% url 'imageupload:logo_prelims' %}" role="button">impreza Test</a>
+<a class="btn btn-primary" href="{% url 'imageupload:poster_prelims' %}" role="button">webdodger Test</a>
+<br>
+<br>
+<h2>All Finals</h2>
+<br>
+<a class="btn btn-primary" href="{% url 'wordhunt:finals' %}" role="button">ransack Test</a>
+<a class="btn btn-primary" href="{% url 'codetreasure:final_code_shuffle_function' %}" role="button">codetreasure
+    Test</a>
+<a class="btn btn-primary" href="{% url 'imageupload:logo_finals' %}" role="button">impreza Test</a>
+<a class="btn btn-primary" href="{% url 'imageupload:poster_finals' %}" role="button">webdodger Test</a>
+{% endblock %}

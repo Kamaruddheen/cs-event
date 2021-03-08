@@ -23,9 +23,15 @@
 
 <body>
     {% block content %}
-    <h1>This is Working</h1>
-    <a class="btn btn-primary" href="{% url 'signup' %}" role="button">Student Registration</a>
+    <h1>CrestFest 2k21</h1>
+    {% if user.is_authenticated %}
     <a class="btn btn-primary" href="{% url 'event_register' %}" role="button">Event Registration</a>
+    <a class="btn btn-primary" href="{% url 'demo' %}" role="button">Attend Test</a>
+    <a class="btn btn-primary" href="{% url 'logout' %}" role="button">Logout</a>
+    {% else %}
+    <a class="btn btn-primary" href="{% url 'signup' %}" role="button">Student Registration (Signup)</a>
+    <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>
+    {% endif %}
     {% endblock %}
 </body>
 
