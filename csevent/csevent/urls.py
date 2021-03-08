@@ -22,9 +22,10 @@ from .views import *
 
 
 urlpatterns = [
+    path('verification/',include('verify_email.urls'),name='verification'),
     path('admin/', admin.site.urls),
     path('', homepage, name="homepage"),
-    path('account/', include('userapp.urls')),
+    path('accounts/', include('userapp.urls')),
     path('events/codetreasure/', include('codetreasure.urls')),
     path('events/ransack/', include('wordhunt.urls')),
     path('events/', include('imageupload.urls')),

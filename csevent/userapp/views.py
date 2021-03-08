@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect
-
 from .models import *
 from .forms import *
-
+from verify_email.email_handler import send_verification_email
 
 def signup(request):
     form = UserForm(request.POST or None)
     form1 = StudentForm(request.POST or None, request.FILES or None)
 
     if form.is_valid() and form1.is_valid():
-        form_obj = form.save(commit=False)
+        form_obj=send_verification_email(request,form)
+        print(form_obj)
+        """form_obj = form.save(commit=False)
         form_obj.user_type = 3
-        form_obj.save()
+        form_obj.save()"""
         # Student Form
         from1_obj = form1.save(commit=False)
         from1_obj.user = User.objects.get(id=form_obj.id)

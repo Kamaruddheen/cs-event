@@ -38,13 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'livereload',  # livereload for development purpose only
+    #'livereload',  # livereload for development purpose only
     'django.contrib.staticfiles',
     'crispy_forms',
     'userapp',
     'wordhunt',
     'imageupload',
     'codetreasure',
+    'verify_email',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -58,7 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # livereload for development purpose only
-    'livereload.middleware.LiveReloadScript',
+    #'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'csevent.urls'
@@ -138,15 +139,20 @@ STATIC_ROOT = BASE_DIR / 'static_files'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+#Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Development
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'crestfest2k21@gmail.com'
+EMAIL_HOST_PASSWORD ='Nevers@ythat6'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "admin@crestfest.in"
 
-# EMAIL_HOST = '<smtp.host>'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = '<username>'
-# EMAIL_HOST_PASSWORD = '<password>'
-# EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = "admin@crestfest.in"
+LOGIN_URL='login'
+
+LOGIN_REDIRECT_URL = "homepage"
+LOGOUT_REDIRECT_URL = "homepage"
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
