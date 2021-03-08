@@ -21,4 +21,7 @@ urlpatterns = [
     # Test Final Message
     path('finals/status/', last_binary_question,
          name='last_binary_question'),
+    # Exit Test
+    path('notallowed/', exit_test, name="exit_test"),
+
 ]

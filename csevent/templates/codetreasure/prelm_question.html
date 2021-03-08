@@ -50,7 +50,6 @@
 
         $(window).focus(function () {
             count = count + 1
-            console.log(count);
             if (count === 1) {
                 alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 1");
             }
@@ -59,6 +58,19 @@
             }
             else {
                 alert("Exam Over!!!!!!");
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'codetreasure:exit_test' %}",
+                    type: 'post',
+                    success: function (data) {
+                        if (data.is_taken) {
+                            window.top.close();
+                        }
+                    }
+                });
             }
         });
 

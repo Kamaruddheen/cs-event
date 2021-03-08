@@ -50,8 +50,14 @@ def register_webdodger(request):
 
 
 def register_ransack(request):
+    event = "ransack"
     stu_obj = StudentModel.objects.update(
         user=request.user, is_ransack=True)
+
+    # Prelims_Test() Model
+    # crate(user, event_choice, tst_status=notstart, attend [default=false])
+    # 
+    
     return render(request, "userapp/event_register.html")
 
 
