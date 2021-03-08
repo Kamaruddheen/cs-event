@@ -1,52 +1,63 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% for q in question_set %}
-        <h2>Question 2 :</h2>
-        <h4>
-            Consider the following program and find out the irrelevant line in the following code:
-        </h4>
-        <hr>
-        {% for q1 in q.question.all %}
-            <img src="{{q1.image.url}}">
-        {% endfor %}
-        <hr>
-        <textarea rows="10" placeholder="Enter the spotted lines" class="form-control"></textarea>
-        <button type="button" class="btn btn-success float-right next" data-question="{{q.id}}">Next</button>
-    {% endfor %}
+
+<h2>{{page}}</h2>
+
+
+{% for p in page.object_list %}
+<h2>Question 1 :</h2>
+
+{% for q1 in p.question.all %}
+<img src="{{q1.image.url}}">
+{% endfor %}
+
+<textarea rows="10" placeholder="Enter the spotted lines" class="form-control"></textarea>
+<button class="btn btn-success float-right submit_button" data-question="{{p.id}}">Submit</button>
+{% if page.has_next %}
+<a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
+    style="pointer-events: none;cursor:default;">Next</a>
+{% else %}
+<a href="{% url 'codetreasure:last_binary_question' %}" class="btn btn-primary float-right next"
+    style="pointer-events:none;cursor:default">Next</a>
+{% endif %}
+{% endfor %}
+
 {% endblock %}
 {% block script %}
-    <script>
-        $(document).ready(function(){
-            $(".next").click(function(){
-                //Question id
-                var q_id=$(this).attr('data-question')
-                //Answer
-                var answer=$(this).prev().val()
-                if(answer.length==0){
-                    alert("Please fill the answer otherwise you can't go to the next page")
-                }
-                else{
-                    $.ajax({
-                        headers: {
-                            "X-CSRFTOKEN": "{{ csrf_token }}",
-                            'contentType': 'application/json;charset=utf-8',
-                        },
-                        url: "{% url 'codetreasure:final_spot_error_function' %}",
-                        type: 'post',
-                        data: { 'answer': answer, 'q_id': q_id },
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data['result']=="already entered") {
-                                alert("You have already attended this question");
-                            }
-                            else if(data['result']=="success"){
-                                console.log("hello success")
-                            }
+<script>
+    $(document).ready(function () {
+        $(".submit_button").click(function () {
+            //Question id
+            var q_id = $(this).attr('data-question')
+            //Answer
+            var answer = $(this).prev().val()
+            if (answer.length == 0) {
+                alert("Please fill the answer otherwise you can't go to the next page")
+            }
+            else {
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'codetreasure:final_spot_error_function' %}",
+                    type: 'post',
+                    data: { 'answer': answer, 'q_id': q_id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result'] == "already entered") {
+                            alert("You have already attended this question");
+                            $('.next').removeAttr("style")
                         }
-                    });
-                }
-                
-            });
+                        else if (data['result'] == "success") {
+                            alert("Submitted successfully")
+                            $('.next').removeAttr("style")
+                        }
+                    }
+                });
+            }
+
         });
-    </script>
+    });
+</script>
 {% endblock %}

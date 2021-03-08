@@ -39,8 +39,25 @@ def final_code_shuffle_function(request):
             final_answer_relation.objects.create(
                 student=student, final_code_shuffle_question=question, user_answer=user_answer)
             return JsonResponse({'result': 'success'})
-    queryset = final_code_shuffle_relation.objects.all().order_by('?')
-    return render(request, 'codetreasure/final_code_shuffle.html', {'queryset': queryset})
+
+    page_no = request.GET.get('page', 1)
+    question_set = final_code_shuffle_relation.objects.all()
+    pages = Paginator(question_set, 1)
+
+    try:
+        page = pages.page(page_no)
+    except EmptyPage:
+        page = pages.page(pages.num_pages)
+    except PageNotAnInteger:
+        page = pages.page(1)
+
+    context = {
+        'page': page, 'pages': pages
+    }
+
+    # queryset = final_code_shuffle_relation.objects.all().order_by('?')
+    # {'queryset': queryset}
+    return render(request, 'codetreasure/final_code_shuffle.html', context=context)
 
 
 def final_binary_function(request):
@@ -83,19 +100,23 @@ def final_spot_error_function(request):
                 student=student, final_code_spot_error_question=question, user_answer=user_answer)
             return JsonResponse({'result': 'success'})
 
-    # page_no = request.GET.get('page', 1)
-    # question_set = final_code_binary_question.objects.all()
-    # pages = Paginator(question_set, 1)
+    page_no = request.GET.get('page', 1)
+    question_set = final_code_spot_error_question.objects.all()
+    pages = Paginator(question_set, 1)
 
-    # try:
-    #     page = pages.page(page_no)
-    # except EmptyPage:
-    #     page = pages.page(pages.num_pages)
-    # except PageNotAnInteger:
-    #     page = pages.page(1)
+    try:
+        page = pages.page(page_no)
+    except EmptyPage:
+        page = pages.page(pages.num_pages)
+    except PageNotAnInteger:
+        page = pages.page(1)
 
-    question_set = final_code_spot_error_question.objects.all().order_by('?')
-    return render(request, 'codetreasure/final_spot_error.html', {'question_set': question_set})
+    # question_set = final_code_spot_error_question.objects.all().order_by('?')
+
+    context = {
+        'page': page, 'pages': pages
+    }
+    return render(request, 'codetreasure/final_spot_error.html', context=context)
 
 
 def last_binary_question(request):
