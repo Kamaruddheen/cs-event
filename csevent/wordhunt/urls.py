@@ -4,8 +4,10 @@ from .views import *
 app_name = "wordhunt"
 
 urlpatterns = [
-    path('prelims/', question_prelims_view, name="prelims"),
+    path('prelims/sectionA/', question_prelims_sectionA, name="prelims"),
+    path('prelims/sectionB/', question_prelims_sectionB, name="prelimsB"),
     path('prelims/submit_answer/', answer_submit, name="answer_submit_prelims"),
-    path('finals/', question_finals_view, name="finals"),
+    path('finals/sectionA/', question_finals_sectionA, name="finals"),
+    path('finals/sectionB/', question_finals_sectionB, name="finalsB"),
     # path('prelims/submit_answer/', answer_submit, name="answer_submit_prelims"),
 ]

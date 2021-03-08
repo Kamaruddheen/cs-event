@@ -26,6 +26,23 @@
 {% block script %}
 <script>
     $(document).ready(function () {
+
+        var count = 0
+
+        $(window).focus(function () {
+            count = count + 1
+            console.log(count);
+            if (count === 1) {
+                alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 1");
+            }
+            else if (count === 2) {
+                alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 2");
+            }
+            else {
+                alert("Exam Over!!!!!!");
+            }
+        });
+
         $(".submit_button").click(function () {
             //Question id
             var q_id = $(this).attr('data-question')

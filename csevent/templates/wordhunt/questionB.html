@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{% if section %}
+<title> Ransack | Round Prelims</title>
+{% else %}
+<title> Ransack | Round Finals</title>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if page.object_list %}
+<h2>Section B</h2>
+
+{% for question in page.object_list %}
+
+<h4>{{forloop.counter}}.{{question.question}}</h4>
+
+{% for q in question.images.all %}
+<img src="{{ q.image.url }}" alt="img" width="250" />
+{% endfor %}
+
+<form method="POST" class="needs-validation" novalidate data-id="{{question.id}}">
+    {% csrf_token %}
+    {{ answer_form|crispy }}
+    <button class="btn btn-success float-right submit_button" data-question="{{question.id}}">Submit</button>
+    {% if page.has_next %}
+    <a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
+        style="pointer-events: none;cursor:default;">Next</a>
+    {% else %}
+    <a href="{% url 'codetreasure:final_spot_error_function' %}" class="btn btn-primary float-right next"
+        style="pointer-events:none;cursor:default">Next</a>
+    {% endif %}
+</form>
+
+{% endfor %}
+<h2>{{page}}</h2>
+{% else %}
+<h1> There might be some problem </h1>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+
+        var count = 0
+
+        $(window).focus(function () {
+            count = count + 1
+            console.log(count);
+            if (count === 1) {
+                alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 1");
+            }
+            else if (count === 2) {
+                alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 2");
+            }
+            else {
+                alert("Exam Over!!!!!!");
+            }
+        });
+
+        $(".next").click(function () {
+            // Answer 
+            var answer = $(this).parent().find("#id_user_answer").val();
+            // Question id
+            var question_id = $(this).attr('data-question');
+
+            $.ajax({
+                headers: {
+                    "X-CSRFTOKEN": "{{ csrf_token }}",
+                    'contentType': 'application/json;charset=utf-8',
+                },
+                url: "{% url 'wordhunt:answer_submit_prelims' %}",
+                type: 'post',
+                data: { 'answer': answer, 'question_id': question_id },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.is_taken) {
+                        $('.next').removeAttr("style")
+                    }
+                    else {
+                        alert("Submitted successfully");
+                        $('.next').removeAttr("style")
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

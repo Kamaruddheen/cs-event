@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 
@@ -6,30 +7,95 @@ from .forms import *
 from .models import *
 
 
-def question_prelims_view(request):
-    wordhunt_A = Wordhunt.objects.filter(roundtype="prelims", section="A")
-    wordhunt_B = Wordhunt.objects.filter(roundtype="prelims", section="B")
+def question_prelims_sectionA(request):
+    # wordhunt_A = Wordhunt.objects.filter(roundtype="prelims", section="A")
     answer_form = Student_Answer(request.POST or None)
 
     section = True
 
-    context = {'questionsA': wordhunt_A, 'questionsB': wordhunt_B,
-               'answer_form': answer_form, 'section': section}
+    page_no = request.GET.get('page', 1)
+    question_set = Wordhunt.objects.filter(roundtype="prelims", section="A")
+    pages = Paginator(question_set, 1)
+    try:
+        page = pages.page(page_no)
+    except EmptyPage:
+        page = pages.page(pages.num_pages)
+    except PageNotAnInteger:
+        page = pages.page(1)
 
-    return render(request, 'wordhunt/question.html', context)
+    context = {
+        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+
+    return render(request, 'wordhunt/questionA.html', context=context)
 
 
-def question_finals_view(request):
-    wordhunt_A = Wordhunt.objects.filter(roundtype="final", section="A")
-    wordhunt_B = Wordhunt.objects.filter(roundtype="final", section="B")
+def question_prelims_sectionB(request):
+    # wordhunt_B = Wordhunt.objects.filter(roundtype="prelims", section="B")
+    answer_form = Student_Answer(request.POST or None)
+
+    section = True
+
+    page_no = request.GET.get('page', 1)
+    question_set = Wordhunt.objects.filter(roundtype="prelims", section="B")
+    pages = Paginator(question_set, 1)
+    try:
+        page = pages.page(page_no)
+    except EmptyPage:
+        page = pages.page(pages.num_pages)
+    except PageNotAnInteger:
+        page = pages.page(1)
+
+    context = {
+        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+
+    context = {
+        'answer_form': answer_form, 'section': section}
+
+    return render(request, 'wordhunt/questionB.html', context=context)
+
+
+def question_finals_sectionA(request):
+    # wordhunt_A = Wordhunt.objects.filter(roundtype="final", section="A")
     answer_form = Student_Answer(request.POST or None)
 
     section = False
 
-    context = {'questionsA': wordhunt_A, 'questionsB': wordhunt_B,
-               'answer_form': answer_form, 'section': section}
+    page_no = request.GET.get('page', 1)
+    question_set = Wordhunt.objects.filter(roundtype="final", section="A")
+    pages = Paginator(question_set, 1)
+    try:
+        page = pages.page(page_no)
+    except EmptyPage:
+        page = pages.page(pages.num_pages)
+    except PageNotAnInteger:
+        page = pages.page(1)
 
-    return render(request, 'wordhunt/question.html', context)
+    context = {
+        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+
+    return render(request, 'wordhunt/questionA.html', context=context)
+
+
+def question_finals_sectionB(request):
+    # wordhunt_B = Wordhunt.objects.filter(roundtype="final", section="B")
+    answer_form = Student_Answer(request.POST or None)
+
+    section = False
+
+    page_no = request.GET.get('page', 1)
+    question_set = Wordhunt.objects.filter(roundtype="final", section="B")
+    pages = Paginator(question_set, 1)
+    try:
+        page = pages.page(page_no)
+    except EmptyPage:
+        page = pages.page(pages.num_pages)
+    except PageNotAnInteger:
+        page = pages.page(1)
+
+    context = {
+        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+
+    return render(request, 'wordhunt/questionB.html', context=context)
 
 
 def answer_submit(request):
