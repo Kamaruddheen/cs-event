@@ -8,7 +8,7 @@
 <h2>Question 1 :</h2>
 
 {% for q1 in p.question.all %}
-<img src="{{q1.image.url}}">
+<img src="{{q1.image.url}}" alt="img" width="500">
 {% endfor %}
 
 <textarea rows="10" placeholder="Enter the spotted lines" class="form-control"></textarea>
@@ -31,7 +31,6 @@
 
         $(window).focus(function () {
             count = count + 1
-            console.log(count);
             if (count === 1) {
                 alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 1");
             }
@@ -40,6 +39,19 @@
             }
             else {
                 alert("Exam Over!!!!!!");
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'codetreasure:exit_test' %}",
+                    type: 'post',
+                    success: function (data) {
+                        if (data.is_taken) {
+                            window.top.close();
+                        }
+                    }
+                });
             }
         });
 

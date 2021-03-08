@@ -7,7 +7,9 @@ from .models import *
 
 def prelm_question(request):
 
-    if request.method == "POST":
+    # start & end from testtime model
+
+    if request.method == "POST":        
         student = request.user
         q_id = request.POST.get('q_id', 'something wrong')
         question = get_object_or_404(question_model, id=q_id)
@@ -23,6 +25,10 @@ def prelm_question(request):
                 student=student, question=question, user_answer=user_answer, status=status)
             return JsonResponse({'save': "completed"})
     else:
+        # testtime model
+        # if start >= now() <= end:
+        # prelims test model udpate(starting time, attended, test_status)
+
         page_no = request.GET.get('page', 1)
         question_set = question_model.objects.all()
         pages = Paginator(question_set, 1)
@@ -33,6 +39,10 @@ def prelm_question(request):
             page = pages.page(pages.num_pages)
         except PageNotAnInteger:
             page = pages.page(1)
+
+        # elif now <= start:
+        # else
+        # test finished
 
         context = {
             'page': page, 'pages': pages
@@ -134,4 +144,14 @@ def last_binary_question(request):
 
 
 def prelm_status(request):
+    #  prelims test (end,test_status)
+    
     return HttpResponse('Successful test completion')
+
+
+def exit_test(request):
+    status = True
+    data = {
+        'is_taken': status
+    }
+    return JsonResponse(data)

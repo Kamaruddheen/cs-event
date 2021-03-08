@@ -14,7 +14,8 @@ def question_prelims_sectionA(request):
     section = True
 
     page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(roundtype="prelims", section="A")
+    question_set = Wordhunt.objects.filter(
+        roundtype="prelims", section="A").order_by('id')
     pages = Paginator(question_set, 1)
     try:
         page = pages.page(page_no)
@@ -36,8 +37,10 @@ def question_prelims_sectionB(request):
     section = True
 
     page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(roundtype="prelims", section="B")
+    question_set = Wordhunt.objects.filter(
+        roundtype="prelims", section="B").order_by('id')
     pages = Paginator(question_set, 1)
+
     try:
         page = pages.page(page_no)
     except EmptyPage:
@@ -46,10 +49,8 @@ def question_prelims_sectionB(request):
         page = pages.page(1)
 
     context = {
-        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
-
-    context = {
-        'answer_form': answer_form, 'section': section}
+        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages
+    }
 
     return render(request, 'wordhunt/questionB.html', context=context)
 
@@ -61,7 +62,8 @@ def question_finals_sectionA(request):
     section = False
 
     page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(roundtype="final", section="A")
+    question_set = Wordhunt.objects.filter(
+        roundtype="final", section="A").order_by('id')
     pages = Paginator(question_set, 1)
     try:
         page = pages.page(page_no)
@@ -83,7 +85,8 @@ def question_finals_sectionB(request):
     section = False
 
     page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(roundtype="final", section="B")
+    question_set = Wordhunt.objects.filter(
+        roundtype="final", section="B").order_by('id')
     pages = Paginator(question_set, 1)
     try:
         page = pages.page(page_no)
@@ -125,3 +128,13 @@ def answer_submit(request):
 
 def export_report(request):
     prelims_result = Stud_Res_WordHunt.objects.all()
+
+
+def exit_test(request):
+    messages.warning(request, "Tab Switch Deteched")
+
+    status = True
+    data = {
+        'is_taken': status
+    }
+    return JsonResponse(data)

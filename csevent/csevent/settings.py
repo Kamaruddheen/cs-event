@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'wordhunt',
     'imageupload',
     'codetreasure',
+    'verify_email',
 ]
 
 # CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
@@ -144,16 +145,17 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Development
 
-# EMAIL_HOST = '<smtp.host>'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = '<username>'
-# EMAIL_HOST_PASSWORD = '<password>'
-# EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = "admin@crestfest.in"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'crestfest2k21@gmail.com'
+EMAIL_HOST_PASSWORD = 'Nevers@ythat6'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "admin@crestfest.tech"
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 MESSAGE_TAGS = {
@@ -163,3 +165,8 @@ MESSAGE_TAGS = {
     messages.WARNING: 'text-warning',
     messages.ERROR: 'text-danger',
 }
+
+LOGIN_URL = "login"
+
+LOGIN_REDIRECT_URL = "homepage"
+LOGOUT_REDIRECT_URL = "homepage"

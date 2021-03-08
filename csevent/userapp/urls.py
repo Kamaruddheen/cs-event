@@ -19,6 +19,21 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(),
          name='password_reset_complete'),
     # SignUp Form
-    path('registration/', signup, name="signup")
+    path('registration/', signup, name="signup"),
+    # Myaccount (Edit)
+    path('myaccount/', myaccount, name="myaccount"),
+    # Events Register
+    path('event_register/', event_register, name="event_register"),
+    # 4 Events only 1 offline-mail
+    path('event_register/ransack/', register_ransack, name="register_ransack"),
+    path('event_register/codetreasure/', register_codetreasure,
+         name="register_codetreasure"),
+    path('event_register/impreza/', register_impreza, name="register_impreza"),
+    path('event_register/webdodger/',
+         register_webdodger, name="register_webdodger"),
+
+
+    # Dummy for Demo
+    path('demo/', demo_link, name="demo"),
 
 ]

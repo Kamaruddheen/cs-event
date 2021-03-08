@@ -3,7 +3,7 @@ from userapp.models import User
 
 
 class question_model(models.Model):
-    question = models.CharField(max_length=100)
+    question = models.CharField(max_length=450)
     option_A = models.CharField(max_length=30)
     option_B = models.CharField(max_length=30)
     option_C = models.CharField(max_length=30)
@@ -45,7 +45,7 @@ class final_code_shuffle_relation(models.Model):
 
 # Final round binary
 class final_code_binary_question(models.Model):
-    question = models.CharField(max_length=50)
+    question = models.CharField(max_length=250)
 
     def __str__(self):
         return self.question
