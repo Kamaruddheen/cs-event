@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+<h2>{{page}}</h2>
 
-{% for q in question %}
+{% for q in page.object_list %}
 <p>{{q}}</p>
 <form method="POST" action="#" class="{{q.id}}">
     {% csrf_token %}
@@ -30,17 +31,23 @@
         </label>
     </div>
 </form>
-<button type="button" class="btn btn-success float-right next">Next</button>
+<button class="btn btn-success float-right submit_button" data-question="{{q.id}}">Submit</button>
+{% if page.has_next %}
+<a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
+    style="pointer-events: none;cursor:default;">Next</a>
+{% else %}
+<a href="{% url 'codetreasure:prelm_status' %}" class="btn btn-primary float-right next"
+    style="pointer-events:none;cursor:default">Next</a>
+{% endif %}
 {% endfor %}
-<input type="submit" class="btn btn-success float-right" value="Submit">
 {% endblock %}
 
 {% block script %}
 <script>
     $(document).ready(function () {
-        $(".next").click(function () {
+        $(".submit_button").click(function () {
             //Question id
-            var q_id = $(this).prev().attr('class')
+            var q_id = $(this).attr('data-question')
             //Answer
             var answer = $("input[name=" + q_id + "]:checked").attr('value')
             $.ajax({
@@ -55,14 +62,15 @@
                 success: function (data) {
                     if (data['save'] == "something wrong") {
                         alert("You have already attended this question");
+                        $('.next').removeAttr("style")
                     }
                     else if (data['save'] == "completed") {
-                        console.log("hello success")
+                        alert("Submitted successfully")
+                        $('.next').removeAttr("style")
                     }
                 }
             });
         });
-
     })
 </script>
 {% endblock %}

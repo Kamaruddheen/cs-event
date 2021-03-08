@@ -23,8 +23,22 @@ def prelm_question(request):
                 student=student, question=question, user_answer=user_answer, status=status)
             return JsonResponse({'save': "completed"})
     else:
-        questions_list = question_model.objects.all().order_by('?')
-        return render(request, 'codetreasure/prelm_question.html', {'question': questions_list})
+        page_no = request.GET.get('page', 1)
+        question_set = question_model.objects.all()
+        pages = Paginator(question_set, 1)
+
+        try:
+            page = pages.page(page_no)
+        except EmptyPage:
+            page = pages.page(pages.num_pages)
+        except PageNotAnInteger:
+            page = pages.page(1)
+
+        context = {
+            'page': page, 'pages': pages
+        }
+        # questions_list = question_model.objects.all().order_by('?')
+        return render(request, 'codetreasure/prelm_question.html', context=context)
 
 
 def final_code_shuffle_function(request):
@@ -55,8 +69,6 @@ def final_code_shuffle_function(request):
         'page': page, 'pages': pages
     }
 
-    # queryset = final_code_shuffle_relation.objects.all().order_by('?')
-    # {'queryset': queryset}
     return render(request, 'codetreasure/final_code_shuffle.html', context=context)
 
 
@@ -111,8 +123,6 @@ def final_spot_error_function(request):
     except PageNotAnInteger:
         page = pages.page(1)
 
-    # question_set = final_code_spot_error_question.objects.all().order_by('?')
-
     context = {
         'page': page, 'pages': pages
     }
@@ -120,4 +130,8 @@ def final_spot_error_function(request):
 
 
 def last_binary_question(request):
-    return HttpResponse('successful test completion')
+    return HttpResponse('Successful test completion')
+
+
+def prelm_status(request):
+    return HttpResponse('Successful test completion')

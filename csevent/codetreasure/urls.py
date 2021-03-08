@@ -7,6 +7,7 @@ app_name = 'codetreasure'
 urlpatterns = [
     #  Prelims
     path('prelims/', prelm_question, name='prelims'),
+    path('prelims/status/', prelm_status, name='prelm_status'),
     #  Finals
     # Code Shuffle
     path('finals/codeshuffle/', final_code_shuffle_function,
