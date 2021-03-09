@@ -31,7 +31,23 @@ def signup(request):
 
 
 def myaccount(request):
-    pass
+    form = User_Form(request.POST or None, instance=request.user)
+    form1 = StudentForm(request.POST or None,
+                        request.FILES or None, instance=request.user.student)
+
+    if request.method == "POST":
+        if form.is_valid() and form1.is_valid():
+            form.save()
+            form1.save()
+            messages.success(
+                request, "Your Account details saved successfully")
+            return redirect("myaccount", permanent=True)
+
+    content = {
+        'form': form, 'form1': form1
+    }
+
+    return render(request, 'userapp/myaccount.html', context=content)
 
 
 # Registration Page

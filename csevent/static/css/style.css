@@ -143,3 +143,12 @@ h6 {
   font-weight: bold;
   font-family: "Noto Serif", serif;
 }
+
+/* Customizing Django crispy + Bootstrap */
+.asteriskField {
+  color: red !important;
+}
+
+.invalid-feedback {
+  padding: 10px 0px 0px 15px;
+}

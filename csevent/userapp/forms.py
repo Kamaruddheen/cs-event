@@ -72,3 +72,38 @@ class StudentForm(forms.ModelForm):
         self.fields['address'].label = "Address :"
         self.fields['bonafide'].label = "Bonafide :"
         self.fields['bonafide'].required = False
+
+
+# Myaccount
+class User_Form(forms.ModelForm):
+    mobile = forms.CharField(widget=forms.NumberInput(
+        attrs={'placeholder': 'Enter your Mobile Number'}), label="Mobile Number :")
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'mobile']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update(
+            {'placeholder': 'Enter your First name'})
+        self.fields['last_name'].widget.attrs.update(
+            {'placeholder': 'Enter your Last name'})
+
+        self.fields['last_name'].label = "Last Name :"
+        self.fields['first_name'].label = "First Name :"
+
+    def clean_confirm_password(self):
+        c_pass = self.cleaned_data.get('confirm_password')
+        if not c_pass == self.cleaned_data.get('password'):
+            raise forms.ValidationError('Password did not match')
+        return c_pass
+
+    # validating the mobile no
+    def clean_mobile(self):
+        mobile = self.cleaned_data.get('mobile')
+        if not len(mobile) == 10:
+            raise forms.ValidationError('Enter a valid Mobile Number')
+        if not mobile.isnumeric():
+            raise forms.ValidationError('Mobile Number must be a Integer')
+        return mobile

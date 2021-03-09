@@ -8,8 +8,6 @@ from userapp.models import *
 
 def prelm_question(request):
 
-    # start & end from testtime model
-
     if request.method == "POST":
         student = request.user
         q_id = request.POST.get('q_id', 'something wrong')
@@ -26,12 +24,9 @@ def prelm_question(request):
                 student=student, question=question, user_answer=user_answer, status=status)
             return JsonResponse({'save': "completed"})
     else:
-        # testtime model
-        # if start >= now() <= end:
-        # prelims test model udpate(starting time, attended, test_status)
 
         page_no = request.GET.get('page', 1)
-        question_set = question_model.objects.all()
+        question_set = question_model.objects.all().order_by('id')
         pages = Paginator(question_set, 1)
 
         try:
@@ -41,14 +36,9 @@ def prelm_question(request):
         except PageNotAnInteger:
             page = pages.page(1)
 
-        # elif now <= start:
-        # else
-        # test finished
-
         context = {
             'page': page, 'pages': pages
         }
-        # questions_list = question_model.objects.all().order_by('?')
         return render(request, 'codetreasure/prelm_question.html', context=context)
 
 
