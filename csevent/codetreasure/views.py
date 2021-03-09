@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -171,6 +172,7 @@ def prelims_exit_test(request):
     return JsonResponse(data)
 
 
+# Finals Score Entry
 def finals_score(request):
     code_score = final_answer_relation.objects.all()
 
@@ -192,3 +194,30 @@ def finals_score(request):
     }
 
     return render(request, "codetreasure/final_score.html", context=context)
+
+
+# Prelims Score Entry
+def prelims_score(request):
+    code_score = None
+    # Stud_Res_CodeTreasure_Prelm.object.filter()
+    query = Stud_Res_CodeTreasure_Prelm.objects.values('student').distinct()
+    # query = Stud_Res_CodeTreasure_Prelm.objects.all().query
+    # # query.group_by = ['student']
+    # # results = QuerySet(query=query, model=Stud_Res_CodeTreasure_Prelm)
+    # # print(results)
+
+    for a in query:
+        for k, id in a.items():
+            score = Stud_Res_CodeTreasure_Prelm.objects.filter(
+                student=id, status=True).count()
+            Score_codetreasureModel.objects.create(
+                student=id, roundtype="prelims", score=score)
+            print(score, id)
+
+    content = {
+        'code_score': code_score
+    }
+
+    return render(request, "codetreasure/prelims_score.html", context=content)
+
+    # obj = Stud_Res_CodeTreasure_Prelm.object.

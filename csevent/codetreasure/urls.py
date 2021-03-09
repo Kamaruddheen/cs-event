@@ -26,4 +26,5 @@ urlpatterns = [
     path('text/exit/prelims/', prelims_exit_test, name="prelims_exit_test"),
     # Exporting Result
     path('score/finals/', finals_score, name="finals_score"),
+    path('score/prelims/', prelims_score, name="prelims_score"),
 ]
