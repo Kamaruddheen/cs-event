@@ -3,13 +3,14 @@ from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import *
+from userapp.models import *
 
 
 def prelm_question(request):
 
     # start & end from testtime model
 
-    if request.method == "POST":        
+    if request.method == "POST":
         student = request.user
         q_id = request.POST.get('q_id', 'something wrong')
         question = get_object_or_404(question_model, id=q_id)
@@ -65,7 +66,7 @@ def final_code_shuffle_function(request):
             return JsonResponse({'result': 'success'})
 
     page_no = request.GET.get('page', 1)
-    question_set = final_code_shuffle_relation.objects.all()
+    question_set = final_code_shuffle_relation.objects.all().order_by('id')
     pages = Paginator(question_set, 1)
 
     try:
@@ -96,7 +97,7 @@ def final_binary_function(request):
             return JsonResponse({'result': 'success'})
 
     page_no = request.GET.get('page', 1)
-    question_set = final_code_binary_question.objects.all()
+    question_set = final_code_binary_question.objects.all().order_by('id')
     pages = Paginator(question_set, 1)
 
     try:
@@ -123,7 +124,7 @@ def final_spot_error_function(request):
             return JsonResponse({'result': 'success'})
 
     page_no = request.GET.get('page', 1)
-    question_set = final_code_spot_error_question.objects.all()
+    question_set = final_code_spot_error_question.objects.all().order_by('id')
     pages = Paginator(question_set, 1)
 
     try:
@@ -145,12 +146,32 @@ def last_binary_question(request):
 
 def prelm_status(request):
     #  prelims test (end,test_status)
-    
+
     return HttpResponse('Successful test completion')
 
 
+# Cheated Finals
 def exit_test(request):
     status = True
+
+    if request.method == "POST":
+        final_test.objects.filter(
+            student=request.user, event="codetreasure").update(test_status="cheated")
+
+    data = {
+        'is_taken': status
+    }
+    return JsonResponse(data)
+
+
+# Cheated Prelims
+def prelims_exit_test(request):
+    status = True
+
+    if request.method == "POST":
+        prelim_test.objects.filter(
+            Student=request.user, event="codetreasure").update(test_status="cheated")
+
     data = {
         'is_taken': status
     }

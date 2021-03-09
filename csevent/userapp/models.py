@@ -114,7 +114,7 @@ class final_test(models.Model):
     end = models.DateTimeField(null=True)
 
     status = [('started', 'started'), ('finished', 'finished'),
-              ('seated', 'seated'), ('not_started', 'not started')]
+              ('cheated', 'cheated'), ('not_started', 'not started')]
     test_status = models.CharField(max_length=20, choices=status)
 
     attended = models.BooleanField(default=False)

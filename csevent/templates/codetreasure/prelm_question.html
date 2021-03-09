@@ -63,7 +63,7 @@
                         "X-CSRFTOKEN": "{{ csrf_token }}",
                         'contentType': 'application/json;charset=utf-8',
                     },
-                    url: "{% url 'codetreasure:exit_test' %}",
+                    url: "{% url 'codetreasure:prelims_exit_test' %}",
                     type: 'post',
                     success: function (data) {
                         if (data.is_taken) {

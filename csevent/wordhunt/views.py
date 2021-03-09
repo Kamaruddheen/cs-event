@@ -127,10 +127,6 @@ def answer_submit(request):
     return JsonResponse(data)
 
 
-def export_report(request):
-    prelims_result = Stud_Res_WordHunt.objects.all()
-
-
 def exit_test(request):
     messages.warning(request, "Tab Switch Deteched")
 
@@ -143,3 +139,8 @@ def exit_test(request):
 
 def finished_test(request):
     return HttpResponse("Test completed successfully.")
+
+
+# Student Result
+def export_prelims(request):
+    pass
