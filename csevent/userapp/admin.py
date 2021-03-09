@@ -31,3 +31,30 @@ class UserAdmin(DjangoUserAdmin):
 
 
 admin.site.register(StudentModel)
+
+
+class prelim_test_admin(admin.ModelAdmin):
+    list_display = ['id', 'Student', 'event', 'test_status', 'attended']
+    search_fields = ['id', 'Student', 'test_status', 'event']
+    ordering = ['-id', ]
+
+
+admin.site.register(prelim_test, prelim_test_admin)
+
+
+class final_test_admin(admin.ModelAdmin):
+    list_display = ['id', 'student', 'event', 'test_status', 'attended']
+    search_fields = ['id', 'student', 'test_status', 'event']
+    ordering = ['-id', ]
+
+
+admin.site.register(final_test, final_test_admin)
+
+
+class test_timings_admin(admin.ModelAdmin):
+    list_display = ['id', 'event', 'round_type', 'start', 'end', ]
+    search_fields = ['id', 'event', 'round_type']
+    ordering = ['-id', ]
+
+
+admin.site.register(test_timings, test_timings_admin)

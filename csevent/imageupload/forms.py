@@ -37,3 +37,25 @@ class PosterForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['poster'].label = "Upload your Poster"
+
+
+class LogoScoreForm(ModelForm):
+    class Meta:
+        model = Logo
+        fields = ['score']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['score'].widget.attrs.update(
+            {'placeholder': 'Score..'})
+
+
+class PosterScoreForm(ModelForm):
+    class Meta:
+        model = Poster
+        fields = ['score']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['score'].widget.attrs.update(
+            {'placeholder': 'Score..'})

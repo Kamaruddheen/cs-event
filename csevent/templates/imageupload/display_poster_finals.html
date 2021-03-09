@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Poster Score Page | Finals</title>
+{% endblock %}
+
+{% block head %}
+
+<style>
+    .table_wrapper {
+        max-height: 450px;
+        overflow-y: auto;
+        display: inline-block;
+    }
+
+    /* Table */
+    /* Table Scrollbar Hide */
+    .table::-webkit-scrollbar {
+        /* Chrome,Edge,Opera,Firefox */
+        width: 0px;
+        background: transparent;
+    }
+
+    .table_wrapper {
+        /* Chrome,Edge,Opera,Firefox */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .table_wrapper::-webkit-scrollbar {
+        /* Chrome,Edge,Opera,Firefox */
+        width: 0px;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<h3>Poster Finals</h3>
+<section class="container my-5">
+    <div class="table-responsive table_wrapper">
+        <table class="table my-1 my-md-2">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Poster</th>
+                    <th scope="col">Student Email id</th>
+                    <th scope="col">Uploaded</th>
+                    <th scope="col">Score</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for poster in poster %}
+                <tr scope="row" class="text-center">
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>
+                        <a href="{{poster.poster.url}}" class="text-primary" target="_blank"
+                            rel="noopener noreferrer">{{poster.poster}}</a>
+                    </td>
+                    <td>{{poster.student}}</td>
+                    <td>{{poster.date_time}}</td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Score..." value="{{poster.score}}">
+                    </td>
+                    <td>
+                        <button class="btn btn-success float-left submit_button"
+                            data-question="{{poster.id}}">Save</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+
+        $(".submit_button").click(function () {
+            //Question id
+            var q_id = $(this).attr('data-question');
+            //answer
+            var answer = $(this).parent().prev().children().val();
+
+            if (answer.length == 0) {
+                alert("Please fill the answer otherwise you can't go to the next page")
+            }
+            else {
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'imageupload:display_poster_finals' %}",
+                    type: 'post',
+                    data: { 'answer': answer, 'q_id': q_id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result'] == "Good") {
+                            alert("Saved")
+                        }
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+{% endblock %}

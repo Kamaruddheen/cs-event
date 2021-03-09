@@ -10,6 +10,8 @@ urlpatterns = [
     path('finals/sectionA/', question_finals_sectionA, name="finals"),
     path('finals/sectionB/', question_finals_sectionB, name="finalsB"),
     # path('prelims/submit_answer/', answer_submit, name="answer_submit_prelims"),
+    # Cheated
     path('notallowed/', exit_test, name="exit_test"),
-
+    # Test submitted
+    path('finished_test/', finished_test, name="finished_test"),
 ]
