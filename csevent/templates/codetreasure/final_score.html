@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Code Treasure Score Page | Finals</title>
+{% endblock %}
+
+{% block head %}
+
+<style>
+    .table_wrapper {
+        max-height: 450px;
+        overflow-y: auto;
+        display: inline-block;
+    }
+
+    /* Table */
+    /* Table Scrollbar Hide */
+    .table::-webkit-scrollbar {
+        /* Chrome,Edge,Opera,Firefox */
+        width: 0px;
+        background: transparent;
+    }
+
+    .table_wrapper {
+        /* Chrome,Edge,Opera,Firefox */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .table_wrapper::-webkit-scrollbar {
+        /* Chrome,Edge,Opera,Firefox */
+        width: 0px;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<h3>Code Treasure Finals</h3>
+<section class="container my-5">
+    <form method="POST" action="{% url 'codetreasure:finals_score' %}">
+        {% csrf_token %}
+        <input type="email" class="form-control col-3" placeholder="Enter Student Mail Id..." name="email">
+        <button type="submit" class="btn btn-success">Enter</button>
+    </form>
+</section>
+<section class="container">
+    <div class="table-responsive table_wrapper">
+        <table class="table my-1 my-md-2">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Question No.</th>
+                    <th scope="col">Student Email id</th>
+                    <th scope="col">Student Answer</th>
+                    <th scope="col">Created at</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for final in code_score %}
+                <tr scope="row" class="text-center">
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>
+                        {% if not final.final_code_shuffle_question == Null %}
+                        {{final.final_code_shuffle_question}}
+                        {% elif not final.final_code_binary_question == Null %}
+                        {{final.final_code_binary_question}}
+                        {% elif not final.final_code_spot_error_question == Null %}
+                        {{final.final_code_spot_error_question}}
+                        {% endif %}
+                    </td>
+                    <td id="email_id" data-mail="{{final.student}}">{{final.student}}</td>
+                    <td>{{final.user_answer}}</td>
+                    <td>{{final.when}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+<section class="container my-5">
+    <input type="text" class="form-control col-3" placeholder="Enter Total Score...">
+    <button type="submit" class="btn btn-success submit_button">Score</button>
+</section>
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+
+        $(".submit_button").click(function () {
+            //Question id
+            var email_id = $("#email_id").attr("data-mail");
+            //answer
+            var answer = $(this).parent().children().val();
+            if (answer.length == 0) {
+                alert("Please fill the answer otherwise you can't go to the next page")
+            }
+            else {
+                $.ajax({
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}",
+                        'contentType': 'application/json;charset=utf-8',
+                    },
+                    url: "{% url 'codetreasure:finals_score' %}",
+                    type: 'post',
+                    data: { 'answer': answer, 'email_id': email_id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['result'] == "Good") {
+                            alert("Saved")
+                        }
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+{% endblock %}

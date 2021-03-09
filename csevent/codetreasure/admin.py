@@ -61,3 +61,12 @@ class admin_final_answer_relation(admin.ModelAdmin):
 
 
 admin.site.register(final_answer_relation, admin_final_answer_relation)
+
+
+class Score_codetreasureModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'student', 'roundtype', 'score']
+    search_fields = ['id', 'roundtype', 'score']
+    ordering = ['roundtype', 'score']
+
+
+admin.site.register(Score_codetreasureModel, Score_codetreasureModelAdmin)
