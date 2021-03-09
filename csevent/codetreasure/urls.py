@@ -21,8 +21,7 @@ urlpatterns = [
     # Test Final Message
     path('finals/status/', last_binary_question,
          name='last_binary_question'),
-    # Exit Test
+    # Cheated Exit Test
     path('text/exit/finals/', exit_test, name="exit_test"),
-    path('text/exit/prelims', prelims_exit_test, name="prelims_exit_test"),
-
+    path('text/exit/prelims/', prelims_exit_test, name="prelims_exit_test"),
 ]

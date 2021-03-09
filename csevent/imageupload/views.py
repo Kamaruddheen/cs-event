@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 
+from userapp.models import *
 from .models import *
 from .forms import *
 from .image import meta_data
@@ -10,6 +11,8 @@ from .image import meta_data
 # Poster Prelims
 def poster_prelims(request):
     form = PosterForm()
+    section = True
+
     if request.method == 'POST':
         if Poster.objects.filter(student=request.user, roundtype="prelims").exists():
             messages.info(
@@ -24,12 +27,19 @@ def poster_prelims(request):
                 obj.roundtype = "prelims"
                 obj.save()
                 return redirect('imageupload:success')
-    return render(request, 'imageupload/poster.html', {'form': form})
+
+    context = {
+        'form': form, 'section': section
+    }
+
+    return render(request, 'imageupload/poster.html', context=context)
 
 
 # Poster Finals
 def poster_finals(request):
     form = PosterForm()
+    section = False
+
     if request.method == 'POST':
         if Poster.objects.filter(student=request.user, roundtype="final").exists():
             messages.info(
@@ -44,12 +54,19 @@ def poster_finals(request):
                 obj.roundtype = "final"
                 obj.save()
                 return redirect('imageupload:success')
-    return render(request, 'imageupload/poster.html', {'form': form})
+
+    context = {
+        'form': form, 'section': section
+    }
+
+    return render(request, 'imageupload/poster.html', context=context)
 
 
 # Logo Prelims
 def logo_prelims(request):
     form = LogoForm()
+    section = True
+
     if request.method == 'POST':
         if Logo.objects.filter(student=request.user, roundtype="prelims").exists():
             messages.info(
@@ -65,12 +82,19 @@ def logo_prelims(request):
                 # meta_data()
                 obj.save()
                 return redirect('imageupload:success')
-    return render(request, 'imageupload/logo.html', {'form': form})
+
+    context = {
+        'form': form, 'section': section
+    }
+
+    return render(request, 'imageupload/logo.html', context=context)
 
 
 # Logo Finals
 def logo_finals(request):
     form = LogoFinalForm()
+    section = False
+
     if request.method == 'POST':
         if Logo.objects.filter(student=request.user, roundtype="final").exists():
             messages.info(
@@ -86,7 +110,12 @@ def logo_finals(request):
                 # meta_data()
                 obj.save()
                 return redirect('imageupload:success')
-    return render(request, 'imageupload/logo.html', {'form': form})
+
+    context = {
+        'form': form, 'section': section
+    }
+
+    return render(request, 'imageupload/logo.html', context=context)
 
 
 #  Status
@@ -102,17 +131,28 @@ def verify_meta_img(request):
     return render(request, 'imageupload/logo.html', context)
 
 
-# Cheated
+# Cheated Both Logo & Poster -- Finals & Prelims
 def exit_test(request):
     messages.warning(request, "Tab Switch Deteched")
-
     status = True
+
+    if request.method == "POST":
+        round1 = request.POST.get('round')
+        events = request.POST.get('event')
+        if round1 == "prelims":
+            prelim_test.objects.filter(
+                Student=request.user, event=events).update(test_status="cheated")
+        elif round1 == "finals":
+            final_test.objects.filter(
+                student=request.user, event=events).update(test_status="cheated")
+
     data = {
         'is_taken': status
     }
     return JsonResponse(data)
 
 
+# Score Board for Logo Prelims
 def display_logo_prelims(request):
     # getting all the objects of Logo .
     score = LogoScoreForm(request.POST or None)
@@ -130,6 +170,7 @@ def display_logo_prelims(request):
     return render(request, 'imageupload/display_logo.html', context=context)
 
 
+# Score Board for Logo Finals
 def display_logo_finals(request):
     # getting all the objects of Logo .
     score = LogoScoreForm(request.POST or None)
@@ -147,6 +188,7 @@ def display_logo_finals(request):
     return render(request, 'imageupload/display_logo_finals.html', context=context)
 
 
+# Score Board for Poster Prelims
 def display_poster_prelims(request):
     # getting all the objects of Poster .
     score = PosterScoreForm(request.POST or None)
@@ -164,6 +206,7 @@ def display_poster_prelims(request):
     return render(request, 'imageupload/display_poster_prelims.html', context=context)
 
 
+# Score Board for Poster Finals
 def display_poster_finals(request):
     # getting all the objects of Poster .
     score = PosterScoreForm(request.POST or None)

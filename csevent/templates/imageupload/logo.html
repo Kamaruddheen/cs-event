@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block title %}
+{% if section %}
+<title> Impreza | Round Prelims</title>
+{% else %}
+<title> Impreza | Round Finals</title>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
     {% csrf_token %}
@@ -13,7 +21,14 @@
 <script>
     $(document).ready(function () {
 
-        var count = 0
+        var count = 0, round;
+        {% if section %}
+        // Prelims
+        round = "prelims";
+        {% else %}
+        // Finals
+        round = "finals";
+        {% endif %}
 
         $(window).focus(function () {
             count = count + 1
@@ -32,6 +47,8 @@
                     },
                     url: "{% url 'imageupload:exit_test' %}",
                     type: 'post',
+                    data: { 'round': round, 'event': 'logo' },
+                    dataType: 'json',
                     success: function (data) {
                         if (data.is_taken) {
                             window.close();

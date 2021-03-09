@@ -1,5 +1,7 @@
 from django.db import models
+
 from wordhunt.models import User
+
 
 
 # Student Result Logo

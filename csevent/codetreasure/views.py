@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -142,6 +143,7 @@ def prelm_status(request):
 
 # Cheated Finals
 def exit_test(request):
+    messages.warning(request, "Tab Switch Deteched")
     status = True
 
     if request.method == "POST":
@@ -156,6 +158,7 @@ def exit_test(request):
 
 # Cheated Prelims
 def prelims_exit_test(request):
+    messages.warning(request, "Tab Switch Deteched")
     status = True
 
     if request.method == "POST":

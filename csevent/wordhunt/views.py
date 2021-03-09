@@ -6,6 +6,7 @@ from django.http import JsonResponse
 
 from .forms import *
 from .models import *
+from userapp.models import *
 
 
 def question_prelims_sectionA(request):
@@ -102,6 +103,7 @@ def question_finals_sectionB(request):
     return render(request, 'wordhunt/questionB.html', context=context)
 
 
+# All Prelims & Finals Answer will come here
 def answer_submit(request):
     attended = False
     status = False
@@ -127,10 +129,20 @@ def answer_submit(request):
     return JsonResponse(data)
 
 
+# Cheated Prelims & Finals
 def exit_test(request):
     messages.warning(request, "Tab Switch Deteched")
-
     status = True
+
+    if request.method == "POST":
+        round = request.POST.get('round')
+        if round == "prelims":
+            prelim_test.objects.filter(
+                Student=request.user, event="wordhunt").update(test_status="cheated")
+        elif round == "finals":
+            final_test.objects.filter(
+                student=request.user, event="wordhunt").update(test_status="cheated")
+
     data = {
         'is_taken': status
     }

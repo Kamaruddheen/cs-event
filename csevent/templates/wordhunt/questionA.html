@@ -48,7 +48,14 @@
 <script>
     $(document).ready(function () {
 
-        var count = 0
+        var count = 0, round;
+        {% if section %}
+        // Prelims
+        round = "prelims";
+        {% else %}
+        // Finals
+        round = "finals";
+        {% endif %}
 
         $(window).focus(function () {
             count = count + 1
@@ -67,6 +74,8 @@
                     },
                     url: "{% url 'wordhunt:exit_test' %}",
                     type: 'post',
+                    data: { 'round': round },
+                    dataType: 'json',
                     success: function (data) {
                         if (data.is_taken) {
                             window.close();
