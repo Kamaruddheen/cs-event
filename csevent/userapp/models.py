@@ -65,7 +65,7 @@ class StudentModel(models.Model):
         upload_to="Student_id", help_text="Don't have Id Card, then get signature from your college")
     profile_pic = models.ImageField(upload_to="Student_pic")
     bonafide = models.FileField(
-        upload_to="Student_bonafide")  # optional
+        upload_to="Student_bonafide", null=True)  # optional
     college_address = models.TextField(max_length=150)
     address = models.TextField(max_length=150)
     # Events selected
@@ -83,7 +83,7 @@ class prelim_test(models.Model):
     Student = models.ForeignKey(User, on_delete=models.CASCADE)
 
     event_choice = [('wordhunt', 'Word Hunt'), ('codetreasure', 'Code Treasure'),
-                    ('logo', 'Logo Design'), ('poster', 'Poster Design'), ('ppt', 'Paper Presentation')]
+                    ('logo', 'Logo Design'), ('poster', 'Poster Design')]
     event = models.CharField(max_length=20, choices=event_choice)
 
     start = models.DateTimeField(null=True)
@@ -106,7 +106,7 @@ class final_test(models.Model):
                     ('logo', 'Logo Design'), ('poster', 'Poster Design'), ('ppt', 'Paper Presentation')]
     event = models.CharField(max_length=20, choices=event_choice)
 
-    placed_choice = [('selected', 'selected'), (1, 1),
+    placed_choice = [('selected', 'Selected'), ('notselected', 'Not Selected'), (1, 1),
                      (2, 2), (3, 3), (4, 4), (5, 5)]
     placed = models.CharField(max_length=20, choices=placed_choice)
 

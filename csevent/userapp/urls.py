@@ -24,7 +24,7 @@ urlpatterns = [
     path('myaccount/', myaccount, name="myaccount"),
     # Events Register
     path('event_register/', event_register, name="event_register"),
-    # 4 Events only 1 offline-mail
+    # 4 Events + 1 google-meet mail link
     path('event_register/ransack/', register_ransack, name="register_ransack"),
     path('event_register/codetreasure/', register_codetreasure,
          name="register_codetreasure"),

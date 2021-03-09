@@ -41,12 +41,12 @@ def event_register(request):
 
 def register_codetreasure(request):
     # registering this event
-    stu_obj = StudentModel.objects.update(
-        user=request.user, is_codetreasure=True)
+    StudentModel.objects.filter(user=request.user).update(is_codetreasure=True)
     # registering event for test
     if not prelim_test.objects.filter(Student=request.user, event='codetreasure').exists():
         prelim_test.objects.create(Student=request.user,
                                    event='codetreasure', test_status='not_started')
+        messages.info(request, "Successfully registered for Code Treasure")
     else:
         messages.info(request, "You have already registered for this Event")
         return render(request, "userapp/event_register.html")
@@ -55,12 +55,12 @@ def register_codetreasure(request):
 
 def register_impreza(request):
     # registering this event
-    stu_obj = StudentModel.objects.update(
-        user=request.user, is_impreza=True)
+    StudentModel.objects.filter(user=request.user).update(is_impreza=True)
     # registering event for test
     if not prelim_test.objects.filter(Student=request.user, event='logo').exists():
         prelim_test.objects.create(Student=request.user,
                                    event='logo', test_status='not_started')
+        messages.info(request, "Successfully registered for Impreza")
     else:
         messages.info(request, "You have already registered for this Event")
         return render(request, "userapp/event_register.html")
@@ -69,11 +69,12 @@ def register_impreza(request):
 
 def register_webdodger(request):
     # registering this event
-    StudentModel.objects.update(user=request.user, is_webdodger=True)
+    StudentModel.objects.filter(user=request.user).update(is_webdodger=True)
     # registering event for test
     if not prelim_test.objects.filter(Student=request.user, event='poster').exists():
         prelim_test.objects.create(Student=request.user,
                                    event='poster', test_status='not_started')
+        messages.info(request, "Successfully registered for Web Dodger")
     else:
         messages.info(request, "You have already registered for this Event")
         return render(request, "userapp/event_register.html")
@@ -82,11 +83,12 @@ def register_webdodger(request):
 
 def register_ransack(request):
     # registering this event
-    StudentModel.objects.update(user=request.user, is_ransack=True)
+    StudentModel.objects.filter(user=request.user).update(is_ransack=True)
     # registering event for test
     if not prelim_test.objects.filter(Student=request.user, event='wordhunt').exists():
         prelim_test.objects.create(Student=request.user,
                                    event='wordhunt', test_status='not_started')
+        messages.info(request, "Successfully registered for Ransack")
     else:
         messages.info(request, "You have already registered for this Event")
         return render(request, "userapp/event_register.html")
@@ -96,12 +98,12 @@ def register_ransack(request):
 
 def register_geekspeak(request):
     # registering this event
-    stu_obj = StudentModel.objects.update(
-        user=request.user, is_geekspeak=True)
+    StudentModel.objects.filter(user=request.user).update(is_geekspeak=True)
     # registering event for test
-    if not prelim_test.objects.filter(Student=request.user, event='ppt').exists():
-        prelim_test.objects.create(Student=request.user,
-                                   event='ppt', test_status='not_started')
+    if not final_test.objects.filter(student=request.user, event='ppt').exists():
+        final_test.objects.create(student=request.user,
+                                  event='ppt', test_status='not_started', placed="notselected")
+        messages.info(request, "Successfully registered for GeekSpeak")
     else:
         messages.info(request, "You have already registered for this Event")
         return render(request, "userapp/event_register.html")
