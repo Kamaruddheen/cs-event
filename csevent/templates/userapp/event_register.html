@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-6 col-lg-8 d-flex">
 				<div class="my-auto ml-auto">
-					{% if user.studentmodel.is_geekspeak %}
+					{% if request.user.student.is_geekspeak %}
 					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
 					{% else %}
 					<a href="{% url 'register_geekspeak' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
@@ -64,7 +64,7 @@
 			</div>
 			<div class="col-6 col-lg-8 d-flex">
 				<div class="my-auto ml-auto">
-					{% if user.studentmodel.is_ransack %}
+					{% if user.student.is_ransack %}
 					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
 					{% else %}
 					<a href="{% url 'register_ransack' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
@@ -115,7 +115,7 @@
 			</div>
 			<div class="col-6 col-lg-8 d-flex">
 				<div class="my-auto ml-auto">
-					{% if user.studentmodel.is_codetreasure %}
+					{% if user.student.is_codetreasure %}
 					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
 					{% else %}
 					<a href="{% url 'register_codetreasure' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
@@ -166,7 +166,7 @@
 			</div>
 			<div class="col-6 col-lg-8 d-flex">
 				<div class="my-auto ml-auto">
-					{% if user.studentmodel.is_impreza %}
+					{% if user.student.is_impreza %}
 					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
 					{% else %}
 					<a href="{% url 'register_impreza' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
@@ -213,11 +213,11 @@
 		<!-- Web Dodger -->
 		<div class="row p-md-4 p-2">
 			<div class="col-6 col-lg-4">
-				<img class="w-60" src="{% static 'img/web_dodger_logo.webp' %}">
+				<img class="w-60" src="{% static 'img/webdodger2.webp' %}">
 			</div>
 			<div class="col-6 col-lg-8 d-flex">
 				<div class="my-auto ml-auto">
-					{% if user.studentmodel.is_webdodger %}
+					{% if user.student.is_webdodger %}
 					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
 					{% else %}
 					<a href="{% url 'register_webdodger' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>

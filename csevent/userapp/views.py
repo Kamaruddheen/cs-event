@@ -66,65 +66,61 @@ def register_codetreasure(request):
         messages.info(request, "Successfully registered for Code Treasure")
     else:
         messages.info(request, "You have already registered for this Event")
-        return render(request, "userapp/register_codetreasure.html")
+        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
-
+@is_student
 def register_impreza(request):
-    if request.method == 'POST' and request.user.is_authenticated:
-        # registering this event
-        StudentModel.objects.filter(user=request.user).update(is_impreza=True)
-        # registering event for test
-        if not prelim_test.objects.filter(Student=request.user, event='logo').exists():
-            prelim_test.objects.create(Student=request.user,
-                                       event='logo', test_status='not_started')
-            messages.info(request, "Successfully registered for Impreza")
-        else:
-            messages.info(request, "You have already registered for this Event")
-            return render(request, "userapp/register_impreza.html")
-    return render(request, "userapp/register_impreza.html")
+    # registering this event
+    StudentModel.objects.filter(user=request.user).update(is_impreza=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='logo').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='logo', test_status='not_started')
+        messages.info(request, "Successfully registered for Impreza")
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
+    return render(request, "userapp/event_register.html")
 
-
+@is_student
 def register_webdodger(request):
-    if request.method == 'POST' and request.user.is_authenticated:
-        # registering this event
-        StudentModel.objects.filter(user=request.user).update(is_webdodger=True)
-        # registering event for test
-        if not prelim_test.objects.filter(Student=request.user, event='poster').exists():
-            prelim_test.objects.create(Student=request.user,
-                                       event='poster', test_status='not_started')
-            messages.info(request, "Successfully registered for Web Dodger")
-        else:
-            messages.info(request, "You have already registered for this Event")
-            return render(request, "userapp/register_webdodger.html")
-    return render(request, "userapp/register_webdodger.html")
+    # registering this event
+    StudentModel.objects.filter(user=request.user).update(is_webdodger=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='poster').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='poster', test_status='not_started')
+        messages.info(request, "Successfully registered for Web Dodger")
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
+    return render(request, "userapp/event_register.html")
 
-
+@is_student
 def register_ransack(request):
-    if request.method == 'POST' and request.user.is_authenticated:
-        # registering this event
-        StudentModel.objects.filter(user=request.user).update(is_ransack=True)
-        # registering event for test
-        if not prelim_test.objects.filter(Student=request.user, event='wordhunt').exists():
-            prelim_test.objects.create(Student=request.user,
-                                       event='wordhunt', test_status='not_started')
-            messages.info(request, "Successfully registered for Ransack")
-        else:
-            messages.info(request, "You have already registered for this Event")
-            return render(request, "userapp/register_ransack.html")
-    return render(request, "userapp/register_ransack.html")
+    # registering this event
+    StudentModel.objects.filter(user=request.user).update(is_ransack=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='wordhunt').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='wordhunt', test_status='not_started')
+        messages.info(request, "Successfully registered for Ransack")
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
+    return render(request, "userapp/event_register.html")
 
-
+@is_student
 def register_geekspeak(request):
-    if request.method == 'POST' and request.user.is_authenticated:
-        # registering this event
-        StudentModel.objects.filter(user=request.user).update(is_geekspeak=True)
-        # registering event for test
-        if not final_test.objects.filter(student=request.user, event='ppt').exists():
-            final_test.objects.create(student=request.user,
-                                      event='ppt', test_status='not_started', placed="notselected")
-            messages.info(request, "Successfully registered for GeekSpeak")
-        else:
-            messages.info(request, "You have already registered for this Event")
-            return render(request, "userapp/register_geekspeak.html")
-    return render(request, "userapp/register_geekspeak.html")
+    # registering this event
+    StudentModel.objects.filter(user=request.user).update(is_geekspeak=True)
+    # registering event for test
+    if not final_test.objects.filter(student=request.user, event='ppt').exists():
+        final_test.objects.create(student=request.user,
+                                  event='ppt', test_status='not_started', placed="notselected")
+        messages.info(request, "Successfully registered for GeekSpeak")
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
+    return render(request, "userapp/event_register.html")

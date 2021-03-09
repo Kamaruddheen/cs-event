@@ -24,14 +24,14 @@
               <a href="{% url 'homepage' %}" class="nav-link active">Home</a>
             </li>
             <li class="nav-item px-3">
-              <a href="#" class="nav-link">Link </a>
+              <a href="{% url 'event_register' %}" class="nav-link">Events </a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item px-3">
               <a href="#" class="nav-link">My Events</a>
             </li>
             <li class="nav-item px-3">
-              <a href="#" class="nav-link">Profile</a>
+              <a href="{% url 'myaccount' %}" class="nav-link">Profile</a>
             </li>
             <li class="nav-item px-3">
               <a href="{% url 'logout' %}" class="nav-link">Logout</a>
