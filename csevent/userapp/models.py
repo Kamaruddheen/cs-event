@@ -110,8 +110,8 @@ class final_test(models.Model):
                      (2, 2), (3, 3), (4, 4), (5, 5)]
     placed = models.CharField(max_length=20, choices=placed_choice)
 
-    start = models.DateTimeField(null=True)
-    end = models.DateTimeField(null=True)
+    start = models.DateTimeField(null=True, blank=True)
+    end = models.DateTimeField(null=True, blank=True)
 
     status = [('started', 'started'), ('finished', 'finished'),
               ('cheated', 'cheated'), ('not_started', 'not started')]

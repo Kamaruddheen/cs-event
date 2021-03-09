@@ -9,6 +9,7 @@ from .models import *
 from userapp.models import *
 
 
+# Wordhunt Prelims Section A
 def question_prelims_sectionA(request):
     # wordhunt_A = Wordhunt.objects.filter(roundtype="prelims", section="A")
     answer_form = Student_Answer(request.POST or None)
@@ -32,6 +33,7 @@ def question_prelims_sectionA(request):
     return render(request, 'wordhunt/questionA.html', context=context)
 
 
+# Wordhunt Prelims Section A
 def question_prelims_sectionB(request):
     # wordhunt_B = Wordhunt.objects.filter(roundtype="prelims", section="B")
     answer_form = Student_Answer(request.POST or None)
@@ -57,6 +59,7 @@ def question_prelims_sectionB(request):
     return render(request, 'wordhunt/questionB.html', context=context)
 
 
+# Wordhunt Prelims Section A
 def question_finals_sectionA(request):
     # wordhunt_A = Wordhunt.objects.filter(roundtype="final", section="A")
     answer_form = Student_Answer(request.POST or None)
@@ -80,6 +83,7 @@ def question_finals_sectionA(request):
     return render(request, 'wordhunt/questionA.html', context=context)
 
 
+# Wordhunt Prelims Section A
 def question_finals_sectionB(request):
     # wordhunt_B = Wordhunt.objects.filter(roundtype="final", section="B")
     answer_form = Student_Answer(request.POST or None)

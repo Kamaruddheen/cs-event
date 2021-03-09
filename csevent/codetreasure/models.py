@@ -38,6 +38,10 @@ class final_code_shuffle(models.Model):
 
 class final_code_shuffle_relation(models.Model):
     question = models.ManyToManyField(final_code_shuffle)
+    ques_no = models.CharField(max_length=80, default="Codeshuffle")
+
+    def __str__(self):
+        return self.ques_no
 
     class Meta:
         verbose_name = 'Code Shuffle Question'
@@ -46,16 +50,16 @@ class final_code_shuffle_relation(models.Model):
 # Final round binary
 class final_code_binary_question(models.Model):
     question = models.CharField(max_length=250)
+    ques_no = models.CharField(max_length=80, default="Binaryhunt")
 
     def __str__(self):
-        return self.question
+        return self.ques_no
 
     class Meta:
         verbose_name = 'Binary Hunter Question'
 
+
 # Final round spot the error
-
-
 class final_code_spot_error_image(models.Model):
     image = models.ImageField(upload_to="final_code_spot_error/")
 
@@ -65,6 +69,10 @@ class final_code_spot_error_image(models.Model):
 
 class final_code_spot_error_question(models.Model):
     question = models.ManyToManyField(final_code_spot_error_image)
+    ques_no = models.CharField(max_length=80, default="SpotError")
+
+    def __str__(self):
+        return self.ques_no
 
     class Meta:
         verbose_name = 'Spot Error Question'
@@ -84,3 +92,13 @@ class final_answer_relation(models.Model):
 
     class Meta:
         verbose_name = 'Student Result Final'
+
+
+class Score_codetreasureModel(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    roundtype_choice = (('prelims', 'Prelims'), ('final', 'Finals'))
+    roundtype = models.CharField(max_length=8, choices=roundtype_choice)
+    score = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Score'

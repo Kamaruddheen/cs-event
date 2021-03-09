@@ -142,7 +142,7 @@ def prelm_status(request):
 
 
 # Cheated Finals
-def exit_test(request):
+def finals_exit_test(request):
     messages.warning(request, "Tab Switch Deteched")
     status = True
 
@@ -169,3 +169,26 @@ def prelims_exit_test(request):
         'is_taken': status
     }
     return JsonResponse(data)
+
+
+def finals_score(request):
+    code_score = final_answer_relation.objects.all()
+
+    if request.method == "POST":
+        email = request.POST.get('email')
+        email_id = request.POST.get('email_id')
+        answer = request.POST.get('answer')
+        if email:
+            id = get_object_or_404(User, email=email)
+            code_score = final_answer_relation.objects.filter(
+                student=id).order_by('when')
+        elif email_id:
+            id = get_object_or_404(User, email=email_id)
+            Score_codetreasureModel.objects.create(
+                student=id, roundtype="final", score=answer)
+
+    context = {
+        'code_score': code_score
+    }
+
+    return render(request, "codetreasure/final_score.html", context=context)
