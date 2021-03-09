@@ -64,9 +64,6 @@ def register_codetreasure(request):
         prelim_test.objects.create(Student=request.user,
                                    event='codetreasure', test_status='not_started')
         messages.info(request, "Successfully registered for Code Treasure")
-    else:
-        messages.info(request, "You have already registered for this Event")
-        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
 @is_student
@@ -78,9 +75,6 @@ def register_impreza(request):
         prelim_test.objects.create(Student=request.user,
                                    event='logo', test_status='not_started')
         messages.info(request, "Successfully registered for Impreza")
-    else:
-        messages.info(request, "You have already registered for this Event")
-        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
 @is_student
@@ -92,9 +86,6 @@ def register_webdodger(request):
         prelim_test.objects.create(Student=request.user,
                                    event='poster', test_status='not_started')
         messages.info(request, "Successfully registered for Web Dodger")
-    else:
-        messages.info(request, "You have already registered for this Event")
-        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
 @is_student
@@ -105,10 +96,6 @@ def register_ransack(request):
     if not prelim_test.objects.filter(Student=request.user, event='wordhunt').exists():
         prelim_test.objects.create(Student=request.user,
                                    event='wordhunt', test_status='not_started')
-        messages.info(request, "Successfully registered for Ransack")
-    else:
-        messages.info(request, "You have already registered for this Event")
-        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
 @is_student
@@ -120,7 +107,4 @@ def register_geekspeak(request):
         final_test.objects.create(student=request.user,
                                   event='ppt', test_status='not_started', placed="notselected")
         messages.info(request, "Successfully registered for GeekSpeak")
-    else:
-        messages.info(request, "You have already registered for this Event")
-        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
