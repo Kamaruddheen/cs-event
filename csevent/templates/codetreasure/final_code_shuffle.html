@@ -87,6 +87,10 @@
                             alert("Submitted successfully")
                             $('.next').removeAttr("style")
                         }
+                        else if(data['result']=='after'){
+                            alert("Time is over")
+                            //window.close()
+                        }
                     }
                 });
             }

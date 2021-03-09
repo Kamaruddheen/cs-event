@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'livereload',  # livereload for development purpose only
+    #'livereload',  # livereload for development purpose only
     'django.contrib.staticfiles',
     'crispy_forms',
     'userapp',
@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # livereload for development purpose only
-    'livereload.middleware.LiveReloadScript',
+    #'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'csevent.urls'
@@ -119,15 +119,13 @@ AUTH_USER_MODEL = 'userapp.User'
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'Asia/Kolkata'
+TIME_ZONE='Asia/Kolkata'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
-
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -142,13 +140,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Development
 
-EMAIL_HOST = 'smtp.gmail.com'
+"""EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'crestfest2k21@gmail.com'
 EMAIL_HOST_PASSWORD = 'Nevers@ythat6'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "admin@crestfest.tech"
+"""
 
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'dreamingdragons7@gmail.com'
+EMAIL_HOST_PASSWORD = 'xsmtpsib-4740780a1466a476104d44e3c99b312cce756b797f1ac9f4bd06a21e24ac949a-BIsGyrR2LjaJ1bHm'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "admin@crestfest.tech"
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

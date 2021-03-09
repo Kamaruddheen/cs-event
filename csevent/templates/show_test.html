@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if status == 'before' %}
+    <p>You logged in before the Test
+        <br>
+        Kindly log in at the time of test
+    </p>
+{% else %}
+    <p>Test has completed already</p>
+{% endif %}
+<h2>Test will start at : {{start.date}} at {{start.time}}</h2>
+<h2>Test will end at : {{end.date}} at {{end.time}}</h2>
+{% endblock %}

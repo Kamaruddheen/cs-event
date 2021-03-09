@@ -31,3 +31,7 @@ class UserAdmin(DjangoUserAdmin):
 
 
 admin.site.register(StudentModel)
+
+admin.site.register(prelim_test)
+admin.site.register(final_test)
+admin.site.register(test_timings)
