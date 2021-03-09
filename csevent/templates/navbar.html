@@ -1,7 +1,7 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-sm navbar-light mx-0 shadow w-100 bg-white fixed" style="z-index: 900;">
-        <a href="#" class="navbar-brand">
+        <a href="{% url 'homepage' %}" class="navbar-brand">
           <img
             class="rounded-lg inline-block"
             src="{% static 'img/cf_logo2.png' %}"
@@ -26,16 +26,25 @@
             <li class="nav-item px-3">
               <a href="#" class="nav-link">Link </a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item px-3">
-              <a href="#" class="nav-link">Link</a>
+              <a href="#" class="nav-link">My Events</a>
             </li>
             <li class="nav-item px-3">
+              <a href="#" class="nav-link">Profile</a>
+            </li>
+            <li class="nav-item px-3">
+              <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item px-3">
               <a
-                class="btn bg-indigo-500 hover:bg-purple-500 text-white px-6" href="{% url 'login' %}"
+                class="btn bg-indigo-500 hover:bg-purple-500 text-white px-6" href="{% url 'login' %}?next={{request.path}}"
               >
                 Login
               </a>
             </li>
+            {% endif %}
           </ul>
         </div>
       </nav>

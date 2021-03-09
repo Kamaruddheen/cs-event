@@ -3,13 +3,24 @@
 {% block content %}
 
 <section class="container my-3">
-	<div class="col-8 col-lg-4 mx-auto">
-		<img class="w-100" src="{% static 'img/code_treasure_logo.png' %}">
-	</div>
 
-	<div class="grid grid-cols-1 space-10 rounded-3xl shadow">
-		<div class="row p-4">
-			<div class="col-12 px-4 py-2">
+	<div class="grid grid-cols-1 space-10 rounded-3xl shadow my-4" id="geekspeak">
+
+		<!-- Geek Speak -->
+		<div class="row p-md-4 p-2">
+			<div class="col-6 col-lg-4">
+				<img class="w-50" src="{% static 'img/geekspeak_logo.webp' %}">
+			</div>
+			<div class="col-6 col-lg-8 d-flex">
+				<div class="my-auto ml-auto">
+					{% if user.studentmodel.is_geekspeak %}
+					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
+					{% else %}
+					<a href="{% url 'register_geekspeak' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-12 px-md-4 py-2">
 				<p class="text-lg">Code Treassure is an event which consists of various technical related questions like code shuffling,binary code ,spot the irrelevant line, technical quiz etc.</p><br>
 				<div class="">
 					<span class="font-semibold">Rounds : </span><span class="text-gray-500">Prelims(12th March, 2021), Finals(13th March, 2021)</span>
@@ -17,40 +28,237 @@
 			</div>
 			<div class="col-12 px-4 py-2">
 				<div><p class="text-lg font-semibold mb-2">Instructions :</p></div>
-				<ul class="px-3 text-indigo-600">
-					<li><i class="fas fa-angle-double-right  pr-2"></i>Single participant.</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Prelims consists of technical related 25 aptitude questions (computer Science).</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Time duration for prelims: 20 minutes</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Final will consist of 10 questions.</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Time  duration for Final : 1hour.</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Registered participants only allowed.</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Students should have their college Id card and registration Id before logging in.</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Top 2 Participants will be awarded with winner certificate.</li>
-					<li><i class="fas fa-angle-double-right text-indigo-600 pr-2"></i>Certificates will be provided for all the Participants.</li>
+				<ul class="px-3 list-disc">
+					<li>Single participant.</li>
+					<li>Prelims consists of technical related 25 aptitude questions (computer Science).</li>
+					<li>Time duration for prelims: 20 minutes</li>
+					<li>Final will consist of 10 questions.</li>
+					<li>Time  duration for Final : 1hour.</li>
+					<li>Registered participants only allowed.</li>
+					<li>Students should have their college Id card and registration Id before logging in.</li>
+					<li>Top 2 Participants will be awarded with winner certificate.</li>
+					<li>E-Certificates will be provided for all the Participants.</li>
+					<li>For the Finals, Google meet Link for the event will be shared. Participants are requested to join with Camera & mike on.</li>
+				</ul>
+			</div>
+			<!-- <div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Staff Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
 				</ul>
 			</div>
 			<div class="col-12 px-4 py-2">
-				<div><p class="text-lg font-semibold mb-2">Do's :</p></div>
+				<div><p class="text-lg font-semibold mb-2">Student Co-ordinators :</p></div>
 				<ul class="list-disc px-3">
-					<li class="fas fa-check text-green-400">&nbsp;&nbsp;Answer all the questions</li>
+					<li>&nbsp;&nbsp;</li>
+				</ul>
+			</div> -->
+		</div>
+	</div>
+
+	<div class="grid grid-cols-1 space-10 rounded-3xl shadow my-3" id="ransack">
+		<!-- Ransack -->
+		<div class="row p-md-4 p-2">
+			<div class="col-6 col-lg-4">
+				<img class="w-60" src="{% static 'img/ransack_logo.webp' %}">
+			</div>
+			<div class="col-6 col-lg-8 d-flex">
+				<div class="my-auto ml-auto">
+					{% if user.studentmodel.is_ransack %}
+					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
+					{% else %}
+					<a href="{% url 'register_ransack' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-12 px-md-4 py-2">
+				<p class="text-lg">Code Treassure is an event which consists of various technical related questions like code shuffling,binary code ,spot the irrelevant line, technical quiz etc.</p><br>
+				<div class="">
+					<span class="font-semibold">Rounds : </span><span class="text-gray-500">Prelims(12th March, 2021), Finals(13th March, 2021)</span>
+				</div>
+			</div>
+			<div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Instructions :</p></div>
+				<ul class="px-3 list-disc">
+					<li>Single participant.</li>
+					<li>Prelims consists of technical related 25 aptitude questions (computer Science).</li>
+					<li>Time duration for prelims: 20 minutes</li>
+					<li>Final will consist of 10 questions.</li>
+					<li>Time  duration for Final : 1hour.</li>
+					<li>Registered participants only allowed.</li>
+					<li>Students should have their college Id card and registration Id before logging in.</li>
+					<li>Top 2 Participants will be awarded with winner certificate.</li>
+					<li>E-Certificates will be provided for all the Participants.</li>
+					<li>For the Finals, Google meet Link for the event will be shared. Participants are requested to join with Camera & mike on.</li>
+				</ul>
+			</div>
+			<!-- <div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Staff Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
 				</ul>
 			</div>
 			<div class="col-12 px-4 py-2">
-				<div><p class="text-lg font-semibold mb-2">Dont's :</p></div>
+				<div><p class="text-lg font-semibold mb-2">Student Co-ordinators :</p></div>
 				<ul class="list-disc px-3">
-					<li class="fas fa-times text-red-400">&nbsp;&nbsp;Switching of tabs will not be allowed.</li>
+					<li>&nbsp;&nbsp;</li>
+				</ul>
+			</div> -->
+		</div>
+	</div>
+
+	<div class="grid grid-cols-1 space-10 rounded-3xl shadow my-3" id="codetreasure">
+		<!-- Code Treasure -->
+		<div class="row p-md-4 p-2">
+			<div class="col-6 col-lg-4">
+				<img class="w-60" src="{% static 'img/code_treasure_logo.webp' %}">
+			</div>
+			<div class="col-6 col-lg-8 d-flex">
+				<div class="my-auto ml-auto">
+					{% if user.studentmodel.is_codetreasure %}
+					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
+					{% else %}
+					<a href="{% url 'register_codetreasure' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-12 px-md-4 py-2">
+				<p class="text-lg">Code Treassure is an event which consists of various technical related questions like code shuffling,binary code ,spot the irrelevant line, technical quiz etc.</p><br>
+				<div class="">
+					<span class="font-semibold">Rounds : </span><span class="text-gray-500">Prelims(12th March, 2021), Finals(13th March, 2021)</span>
+				</div>
+			</div>
+			<div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Instructions :</p></div>
+				<ul class="px-3 list-disc">
+					<li>Single participant.</li>
+					<li>Prelims consists of technical related 25 aptitude questions (computer Science).</li>
+					<li>Time duration for prelims: 20 minutes</li>
+					<li>Final will consist of 10 questions.</li>
+					<li>Time  duration for Final : 1hour.</li>
+					<li>Registered participants only allowed.</li>
+					<li>Students should have their college Id card and registration Id before logging in.</li>
+					<li>Top 2 Participants will be awarded with winner certificate.</li>
+					<li>E-Certificates will be provided for all the Participants.</li>
+					<li>For the Finals, Google meet Link for the event will be shared. Participants are requested to join with Camera & mike on.</li>
 				</ul>
 			</div>
-			<div class="col-12 px-4 py-2 my-2">
-				<a href="#" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Register</a>
+			<!-- <div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Staff Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
+				</ul>
 			</div>
+			<div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Student Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
+				</ul>
+			</div> -->
+		</div>
+	</div>
+
+	<div class="grid grid-cols-1 space-10 rounded-3xl shadow my-3" id="impreza">
+		<!-- Impreza -->
+		<div class="row p-md-4 p-2">
+			<div class="col-6 col-lg-4">
+				<img class="w-60" src="{% static 'img/impreza_logo.webp' %}">
+			</div>
+			<div class="col-6 col-lg-8 d-flex">
+				<div class="my-auto ml-auto">
+					{% if user.studentmodel.is_impreza %}
+					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
+					{% else %}
+					<a href="{% url 'register_impreza' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-12 px-md-4 py-2">
+				<p class="text-lg">Code Treassure is an event which consists of various technical related questions like code shuffling,binary code ,spot the irrelevant line, technical quiz etc.</p><br>
+				<div class="">
+					<span class="font-semibold">Rounds : </span><span class="text-gray-500">Prelims(12th March, 2021), Finals(13th March, 2021)</span>
+				</div>
+			</div>
+			<div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Instructions :</p></div>
+				<ul class="px-3 list-disc">
+					<li>Single participant.</li>
+					<li>Prelims consists of technical related 25 aptitude questions (computer Science).</li>
+					<li>Time duration for prelims: 20 minutes</li>
+					<li>Final will consist of 10 questions.</li>
+					<li>Time  duration for Final : 1hour.</li>
+					<li>Registered participants only allowed.</li>
+					<li>Students should have their college Id card and registration Id before logging in.</li>
+					<li>Top 2 Participants will be awarded with winner certificate.</li>
+					<li>E-Certificates will be provided for all the Participants.</li>
+					<li>For the Finals, Google meet Link for the event will be shared. Participants are requested to join with Camera & mike on.</li>
+				</ul>
+			</div>
+			<!-- <div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Staff Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
+				</ul>
+			</div>
+			<div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Student Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
+				</ul>
+			</div> -->
+		</div>
+	</div>
+
+	<div class="grid grid-cols-1 space-10 rounded-3xl shadow my-3" id="webdodger">
+		<!-- Web Dodger -->
+		<div class="row p-md-4 p-2">
+			<div class="col-6 col-lg-4">
+				<img class="w-60" src="{% static 'img/web_dodger_logo.webp' %}">
+			</div>
+			<div class="col-6 col-lg-8 d-flex">
+				<div class="my-auto ml-auto">
+					{% if user.studentmodel.is_webdodger %}
+					<p class="btn text-green-400 font-semibold bg-white px-4 mx-2"><i class="fas fa-check pr-2"></i>Enrolled</p>
+					{% else %}
+					<a href="{% url 'register_webdodger' %}" class="btn text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 px-4 mx-2">Enroll</a>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-12 px-md-4 py-2">
+				<p class="text-lg">Code Treassure is an event which consists of various technical related questions like code shuffling,binary code ,spot the irrelevant line, technical quiz etc.</p><br>
+				<div class="">
+					<span class="font-semibold">Rounds : </span><span class="text-gray-500">Prelims(12th March, 2021), Finals(13th March, 2021)</span>
+				</div>
+			</div>
+			<div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Instructions :</p></div>
+				<ul class="px-3 list-disc">
+					<li>Single participant.</li>
+					<li>Prelims consists of technical related 25 aptitude questions (computer Science).</li>
+					<li>Time duration for prelims: 20 minutes</li>
+					<li>Final will consist of 10 questions.</li>
+					<li>Time  duration for Final : 1hour.</li>
+					<li>Registered participants only allowed.</li>
+					<li>Students should have their college Id card and registration Id before logging in.</li>
+					<li>Top 2 Participants will be awarded with winner certificate.</li>
+					<li>E-Certificates will be provided for all the Participants.</li>
+					<li>For the Finals, Google meet Link for the event will be shared. Participants are requested to join with Camera & mike on.</li>
+				</ul>
+			</div>
+			<!-- <div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Staff Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
+				</ul>
+			</div>
+			<div class="col-12 px-4 py-2">
+				<div><p class="text-lg font-semibold mb-2">Student Co-ordinators :</p></div>
+				<ul class="list-disc px-3">
+					<li>&nbsp;&nbsp;</li>
+				</ul>
+			</div> -->
 		</div>
 	</div>
 </section>
-
-<a class="btn btn-primary" href="{% url 'register_ransack' %}" role="button">ransack</a>
-<a class="btn btn-primary" href="{% url 'register_codetreasure' %}" role="button">codetreasure</a>
-<a class="btn btn-primary" href="{% url 'register_impreza' %}" role="button">impreza</a>
-<a class="btn btn-primary" href="{% url 'register_webdodger' %}" role="button">webdodger</a>
 
 {% endblock %}

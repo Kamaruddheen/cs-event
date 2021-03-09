@@ -2,10 +2,10 @@
 
 <div aria-live="polite" aria-atomic="true" style="position: relative; z-index:1800">
 	{% for message in messages %}
-	<div class="toast p-2 mr-md-3 mt-md-3" style="position: absolute; top: 0; right: 0;" data-delay="2000"
+	<div class="toast p-2 mr-md-3 mt-md-3 w-80" style="position: absolute; top: 0; right: 0;" data-delay="5000"
 		id="{{ forloop.counter0 }}">
 		<div class="toast-header border_color_white p-2 bg-transparent">
-			<img src="{% static 'img/logo.jpg' %}" width="35" class="rounded-circle mr-2" alt="Horbax">
+			<img src="{% static 'img/cf_logo3.png' %}" width="10px" class="rounded-circle mr-2" alt="CrestFest">
 			<strong class="mr-auto text_d_blue">Notification</strong>
 			<small>Just Now</small>
 			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
