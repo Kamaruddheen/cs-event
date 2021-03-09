@@ -77,3 +77,62 @@ class StudentModel(models.Model):
 
     class Meta:
         verbose_name = 'Student'
+
+
+class prelim_test(models.Model):
+    Student = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    event_choice = [('wordhunt', 'Word Hunt'), ('codetreasure', 'Code Treasure'),
+                    ('logo', 'Logo Design'), ('poster', 'Poster Design'), ('ppt', 'Paper Presentation')]
+    event = models.CharField(max_length=20, choices=event_choice)
+
+    start = models.DateTimeField(null=True)
+    end = models.DateTimeField(null=True)
+
+    status = [('started', 'started'), ('finished', 'finished'),
+              ('cheated', 'cheated'), ('not_started', 'not started')]
+    test_status = models.CharField(max_length=20, choices=status)
+
+    attended = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Prelims Test'
+
+
+class final_test(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    event_choice = [('wordhunt', 'Word Hunt'), ('codetreasure', 'Code Treasure'),
+                    ('logo', 'Logo Design'), ('poster', 'Poster Design'), ('ppt', 'Paper Presentation')]
+    event = models.CharField(max_length=20, choices=event_choice)
+
+    placed_choice = [('selected', 'selected'), (1, 1),
+                     (2, 2), (3, 3), (4, 4), (5, 5)]
+    placed = models.CharField(max_length=20, choices=placed_choice)
+
+    start = models.DateTimeField(null=True)
+    end = models.DateTimeField(null=True)
+
+    status = [('started', 'started'), ('finished', 'finished'),
+              ('seated', 'seated'), ('not_started', 'not started')]
+    test_status = models.CharField(max_length=20, choices=status)
+
+    attended = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Finals Test'
+
+
+class test_timings(models.Model):
+    event_choice = [('wordhunt', 'Word Hunt'), ('codetreasure', 'Code Treasure'),
+                    ('logo', 'Logo Design'), ('poster', 'Poster Design'), ('ppt', 'Paper Presentation')]
+    event = models.CharField(max_length=20, choices=event_choice)
+
+    round_choice = [('preliminary', 'preliminary'), ('final', 'final')]
+    round_type = models.CharField(max_length=20, choices=round_choice)
+
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+
+    class Meta:
+        verbose_name = 'Test Timing'

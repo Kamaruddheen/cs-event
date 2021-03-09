@@ -31,9 +31,6 @@ urlpatterns = [
     path('event_register/impreza/', register_impreza, name="register_impreza"),
     path('event_register/webdodger/',
          register_webdodger, name="register_webdodger"),
-
-
-    # Dummy for Demo
-    path('demo/', demo_link, name="demo"),
-
+    path('event_register/geekspeak/',
+         register_geekspeak, name="register_geekspeak"),
 ]

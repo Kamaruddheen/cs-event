@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from verify_email.email_handler import send_verification_email
 
@@ -32,48 +33,76 @@ def signup(request):
 def myaccount(request):
     pass
 
+
 # Registration Page
-
-
 def event_register(request):
     return render(request, "userapp/event_register.html")
 
 
-def demo_link(request):
-    return render(request, "userapp/event_test.html")
-
-
 def register_codetreasure(request):
-    # stu_obj = StudentModel.objects.update(
-    #     user=request.user, is_codetreasure=True)
+    # registering this event
+    stu_obj = StudentModel.objects.update(
+        user=request.user, is_codetreasure=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='codetreasure').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='codetreasure', test_status='not_started')
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
 
 def register_impreza(request):
+    # registering this event
     stu_obj = StudentModel.objects.update(
         user=request.user, is_impreza=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='logo').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='logo', test_status='not_started')
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
 
 def register_webdodger(request):
-    stu_obj = StudentModel.objects.update(
-        user=request.user, is_webdodger=True)
+    # registering this event
+    StudentModel.objects.update(user=request.user, is_webdodger=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='poster').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='poster', test_status='not_started')
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
 
 
 def register_ransack(request):
-    event = "ransack"
-    stu_obj = StudentModel.objects.update(
-        user=request.user, is_ransack=True)
-
-    # Prelims_Test() Model
-    # crate(user, event_choice, tst_status=notstart, attend [default=false])
-    #
+    # registering this event
+    StudentModel.objects.update(user=request.user, is_ransack=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='wordhunt').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='wordhunt', test_status='not_started')
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
 
     return render(request, "userapp/event_register.html")
 
 
 def register_geekspeak(request):
+    # registering this event
     stu_obj = StudentModel.objects.update(
         user=request.user, is_geekspeak=True)
+    # registering event for test
+    if not prelim_test.objects.filter(Student=request.user, event='ppt').exists():
+        prelim_test.objects.create(Student=request.user,
+                                   event='ppt', test_status='not_started')
+    else:
+        messages.info(request, "You have already registered for this Event")
+        return render(request, "userapp/event_register.html")
     return render(request, "userapp/event_register.html")
