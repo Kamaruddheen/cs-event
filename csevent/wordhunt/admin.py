@@ -22,7 +22,7 @@ admin.site.register(Images, WordhuntImagesAdmin)
 
 class Stud_Res_WordHuntAdmin(admin.ModelAdmin):
     list_display = ['id', 'student', 'question', 'status', 'date_time']
-    search_fields = ['id', 'student']
+    search_fields = ['id', ]
     ordering = ['student', 'question', '-date_time']
 
 

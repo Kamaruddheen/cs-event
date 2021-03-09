@@ -15,7 +15,7 @@ admin.site.register(question_model, question_model_Admin)
 class Admin_Stud_Res_CodeTreasure_Prelm(admin.ModelAdmin):
     list_display = ['id', 'student', 'question',
                     'user_answer', 'status', 'when']
-    search_fields = ['id', 'student']
+    search_fields = ['id', ]
     ordering = ['id']
 
 
@@ -57,8 +57,7 @@ admin.site.register(final_code_spot_error_question)
 class admin_final_answer_relation(admin.ModelAdmin):
     list_display = ['id', 'student', 'final_code_shuffle_question',
                     'final_code_binary_question', 'final_code_spot_error_question', 'user_answer', 'when']
-    search_fields = ['student', 'final_code_shuffle_question',
-                     'final_code_binary_question', 'final_code_spot_error_question']
+    search_fields = ['id', ]
 
 
 admin.site.register(final_answer_relation, admin_final_answer_relation)
