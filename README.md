@@ -30,5 +30,5 @@ Then, Go to: https://localhost:8000 or http://127.0.0.1:8000
 
 ## **Authentication Details**
  - #### Django Admin Account
-    - Username : admin@crestfest.in
+    - Username : admin@crestfest.tech
     - Password : admin

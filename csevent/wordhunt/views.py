@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import get_object_or_404, redirect, render
+from django.http.response import HttpResponse
+from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
 
 from .forms import *
@@ -138,3 +139,7 @@ def exit_test(request):
         'is_taken': status
     }
     return JsonResponse(data)
+
+
+def finished_test(request):
+    return HttpResponse("Test completed successfully.")

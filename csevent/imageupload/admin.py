@@ -4,18 +4,20 @@ from .models import *
 
 
 class LogoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'status', 'roundtype', 'date_time']
+    list_display = ['id', 'student', 'score',
+                    'status', 'roundtype', 'date_time']
     search_fields = ['student', 'logo']
-    ordering = ['roundtype', 'id', ]
+    ordering = ['-roundtype', '-score', ]
 
 
 admin.site.register(Logo, LogoAdmin)
 
 
 class PosterAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'status', 'roundtype', 'date_time']
+    list_display = ['id', 'student', 'score',
+                    'status', 'roundtype', 'date_time']
     search_fields = ['student', 'poster', 'roundtype']
-    ordering = ['id', 'roundtype']
+    ordering = ['-roundtype', '-score']
 
 
 admin.site.register(Poster, PosterAdmin)
