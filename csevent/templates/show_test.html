@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-{% if status == 'before' %}
-    <p>You logged in before the Test
+{% if status=='cheated' %}
+    <h4>You have committed a malpractice</h4>
+    <h5>You can't continue the test hereafter</h5>
+    <h6>For further updates contact our developing team</h6>
+{% else %} 
+    {% if status == 'before' %}
+        <p>You logged in before the Test
         <br>
         Kindly log in at the time of test
-    </p>
-{% else %}
-    <p>Test has completed already</p>
+        </p>
+    {% else %}
+        <p>Test has completed already</p>
+    {% endif %}
+    <h2>Test will start at : {{start.date}} at {{start.time}}</h2>
+    <h2>Test will end at : {{end.date}} at {{end.time}}</h2>
 {% endif %}
-<h2>Test will start at : {{start.date}} at {{start.time}}</h2>
-<h2>Test will end at : {{end.date}} at {{end.time}}</h2>
 {% endblock %}
