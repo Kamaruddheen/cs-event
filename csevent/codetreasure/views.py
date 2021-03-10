@@ -113,7 +113,7 @@ def final_code_shuffle_function(request):
                 return HttpResponse('cheated') 
 
             page_no = request.GET.get('page', 1)
-            question_set = final_code_shuffle_relation.objects.all()
+            question_set = final_code_shuffle_relation.objects.all().order_by('id')
             pages = Paginator(question_set, 1)
              
             try:
@@ -171,7 +171,7 @@ def final_binary_function(request):
             elif current_user_obj.test_status=="cheated":
                 return HttpResponse('cheated') 
             page_no = request.GET.get('page', 1)
-            question_set = final_code_binary_question.objects.all()
+            question_set = final_code_binary_question.objects.all().order_by('id')
             pages = Paginator(question_set, 1)
 
             try:
@@ -224,7 +224,7 @@ def final_spot_error_function(request):
             elif current_user_obj.test_status=="cheated":
                 return HttpResponse('cheated') 
             page_no = request.GET.get('page', 1)
-            question_set = final_code_spot_error_question.objects.all()
+            question_set = final_code_spot_error_question.objects.all().order_by('id')
             pages = Paginator(question_set, 1)
 
             try:
