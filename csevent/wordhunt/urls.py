@@ -15,4 +15,7 @@ urlpatterns = [
     path('text/exit/', exit_test, name="exit_test"),
     # Test submitted
     path('finished_test/', finished_test, name="finished_test"),
+    # Score Board
+    path('score/prelims/', score_prelims, name="score_prelims"),
+    path('score/finals/', score_finals, name="score_finals"),
 ]

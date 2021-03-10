@@ -26,6 +26,18 @@ class Stud_Res_WordHunt(models.Model):
     user_answer = models.CharField(max_length=30)
     status = models.BooleanField()
     date_time = models.DateTimeField(auto_now_add=True)
+    roundtype_choice = (('prelims', 'Prelims'), ('final', 'Finals'))
+    roundtype = models.CharField(max_length=8, choices=roundtype_choice)
 
     class Meta:
         verbose_name = 'Student Result WordHunt'
+
+
+class Score_wordhuntModel(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    roundtype_choice = (('prelims', 'Prelims'), ('final', 'Finals'))
+    roundtype = models.CharField(max_length=8, choices=roundtype_choice)
+    score = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Score'

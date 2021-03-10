@@ -199,25 +199,24 @@ def finals_score(request):
 # Prelims Score Entry
 def prelims_score(request):
     code_score = None
-    # Stud_Res_CodeTreasure_Prelm.object.filter()
+    # Colleting the Email id for Prelims Result
     query = Stud_Res_CodeTreasure_Prelm.objects.values('student').distinct()
-    # query = Stud_Res_CodeTreasure_Prelm.objects.all().query
-    # # query.group_by = ['student']
-    # # results = QuerySet(query=query, model=Stud_Res_CodeTreasure_Prelm)
-    # # print(results)
 
     for a in query:
         for k, id in a.items():
+            user_obj = get_object_or_404(User, id=id)
+            # Counting the Score for each user
             score = Stud_Res_CodeTreasure_Prelm.objects.filter(
                 student=id, status=True).count()
-            Score_codetreasureModel.objects.create(
-                student=id, roundtype="prelims", score=score)
-            print(score, id)
+            if not Score_codetreasureModel.objects.filter(student=user_obj, roundtype="prelims").exists():
+                Score_codetreasureModel.objects.create(
+                    student=user_obj, roundtype="prelims", score=score)
+
+    code_score = Score_codetreasureModel.objects.filter(
+        roundtype="prelims").order_by('-score')
 
     content = {
         'code_score': code_score
     }
 
     return render(request, "codetreasure/prelims_score.html", context=content)
-
-    # obj = Stud_Res_CodeTreasure_Prelm.object.
