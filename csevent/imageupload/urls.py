@@ -14,8 +14,6 @@ urlpatterns = [
     # Finished Status
     path('success/', success, name='success'),
     path('verify/metadata/', verify_meta_img, name="verify_meta"),
-    # Test Cheated
-    path('notallowed/', exit_test, name="exit_test"),
     # Logo Score
     path('impreza/prelims/result/score/', display_logo_prelims,
          name='display_logo_prelims'),
@@ -27,5 +25,4 @@ urlpatterns = [
          name='display_poster_prelims'),
     path('webdodger/finals/result/score/', display_poster_finals,
          name='display_poster_finals'),
-
 ]

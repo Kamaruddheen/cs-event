@@ -131,27 +131,6 @@ def verify_meta_img(request):
     return render(request, 'imageupload/logo.html', context)
 
 
-# Cheated Both Logo & Poster -- Finals & Prelims
-def exit_test(request):
-    messages.warning(request, "Tab Switch Deteched")
-    status = True
-
-    if request.method == "POST":
-        round1 = request.POST.get('round')
-        events = request.POST.get('event')
-        if round1 == "prelims":
-            prelim_test.objects.filter(
-                Student=request.user, event=events).update(test_status="cheated")
-        elif round1 == "finals":
-            final_test.objects.filter(
-                student=request.user, event=events).update(test_status="cheated")
-
-    data = {
-        'is_taken': status
-    }
-    return JsonResponse(data)
-
-
 # Score Board for Logo Prelims
 def display_logo_prelims(request):
     # getting all the objects of Logo .
