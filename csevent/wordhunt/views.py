@@ -10,8 +10,7 @@ from userapp.models import *
 
 
 # Wordhunt Prelims Section A
-def question_prelims_sectionA(request):
-    # wordhunt_A = Wordhunt.objects.filter(roundtype="prelims", section="A")
+def question_prelims_sectionA(request):#If condition for time checking adn update as started
     answer_form = Student_Answer(request.POST or None)
 
     section = True
@@ -118,13 +117,13 @@ def answer_submit(request):
     value = ((request.POST.get('answer', None)).lower()).replace(" ", "")
 
     if question_obj.correct_answer.lower() == value:
-        print(value, question_id, question_obj.correct_answer)
+        #print(value, question_id, question_obj.correct_answer)
         status = True
 
     if Stud_Res_WordHunt.objects.filter(student=student, question=question_obj).exists():
         attended = True
         messages.info(request, "You have already attended this question")
-    else:
+    else:#answer entry
         student_final_answer = Stud_Res_WordHunt.objects.create(
             student=student, question=question_obj, user_answer=actual_answer, status=status)
 
@@ -153,7 +152,7 @@ def exit_test(request):
     return JsonResponse(data)
 
 
-def finished_test(request):
+def finished_test(request):#status need to be changed for time
     return HttpResponse("Test completed successfully.")
 
 
