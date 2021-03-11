@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <h2>{{page}}</h2>
-
+<div id="binary-table">
+    <img src="{% static 'img/binary.jpg' %}">
+</div>
 {% for p in page.object_list %}
 <h2>Question 1 :</h2>
 <h4>{{p.question}}</h4>
@@ -22,7 +25,9 @@
 {% block script %}
 <script>
     $(document).ready(function () {
-
+        setTimeout(function(){
+            $("#binary-table").addClass('d-none');
+        },5000)
         var count = 0
 
         $(window).focus(function () {
