@@ -114,6 +114,7 @@
                         }
                         else if(data['failure']){
                             alert('Time is over')
+                            $('.next').removeAttr("style")
                         }
                         else if(data['status']=='cheated')
                         {

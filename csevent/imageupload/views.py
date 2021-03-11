@@ -7,27 +7,60 @@ from .models import *
 from .forms import *
 from .image import meta_data
 
+from datetime import datetime
 
 # Poster Prelims
 def poster_prelims(request):
-    form = PosterForm()
+    #get the date and time of the logo
+    date_obj=get_object_or_404(test_timings,event='poster',round_type='preliminary')
+    start=date_obj.start
+    end=date_obj.end
+    #section=true indicates the prelims round
     section = True
-
+    
     if request.method == 'POST':
         if Poster.objects.filter(student=request.user, roundtype="prelims").exists():
             messages.info(
                 request, "You have already uploaded your Documnet")
-            return redirect('imageupload:poster_prelims')
+            return render(request,'success.html')
         else:
-            form = PosterForm(request.POST or None, request.FILES or None)
-            if form.is_valid():
-                obj = form.save(commit=False)
-                obj.student = request.user
-                obj.status = False
-                obj.roundtype = "prelims"
-                obj.save()
-                return redirect('imageupload:success')
-
+            #check for the current time
+            current=datetime.now()
+            if start>current:
+                return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+            elif start<=current and current<=end:
+                form = PosterForm(request.POST or None, request.FILES or None)
+                if form.is_valid():
+                   obj = form.save(commit=False)
+                   obj.student = request.user
+                   obj.status = False
+                   obj.roundtype = "prelims"
+                   obj.save()
+                   prelim_test.objects.filter(Student=request.user,event='poster').update(end=current,test_status='finished')
+                   messages.success(request,'Saved successfully')
+                   return render(request,'success.html')
+            elif end<current:
+                return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+            else:
+                return HttpResponse('something wrong')
+    else:
+        current=datetime.now()
+        if start>current:
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+            #status = before indicates test still exist
+        elif start<=current and current<=end:
+            #get the current user object :
+            current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='poster')
+            if current_user_obj.test_status=="not_started":
+                prelim_test.objects.filter(Student=request.user,event='poster').update(start=current,test_status='started',attended=True)
+            elif current_user_obj.test_status=="finished":
+                messages.warning(request,"You have already posted your logo")
+                return render(request,'success.html')
+            form = PosterForm()
+        elif end<current:
+                return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+        else:
+            return HttpResponse('something wrong')
     context = {
         'form': form, 'section': section
     }
@@ -64,29 +97,60 @@ def poster_finals(request):
 
 # Logo Prelims
 def logo_prelims(request):
-    form = LogoForm()
+    #get the date and time of the logo
+    date_obj=get_object_or_404(test_timings,event='logo',round_type='preliminary')
+    start=date_obj.start
+    end=date_obj.end
+    
+    #section=true indicates the prelims round
     section = True
-
     if request.method == 'POST':
         if Logo.objects.filter(student=request.user, roundtype="prelims").exists():
             messages.info(
-                request, "You have already uploaded your Documnet")
-            return redirect('imageupload:logo_prelims')
+                request, "You have already uploaded your logo")
+            return render(request,'success.html')
         else:
-            form = LogoForm(request.POST, request.FILES)
-            if form.is_valid():
-                obj = form.save(commit=False)
-                obj.student = request.user
-                obj.status = False
-                obj.roundtype = "prelims"
-                # meta_data()
-                obj.save()
-                return redirect('imageupload:success')
-
+            #check for the current time
+            current=datetime.now()
+            if start>current:
+                return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+            elif start<=current and current<=end:
+                form = LogoForm(request.POST, request.FILES)
+                if form.is_valid():
+                    obj = form.save(commit=False)
+                    obj.student = request.user
+                    obj.roundtype = "prelims"
+                    # meta_data()
+                    obj.save()
+                    prelim_test.objects.filter(Student=request.user,event='logo').update(end=current,test_status='finished')
+                    messages.success(request,'Saved successfully')
+                    return render(request,'success.html')
+                #If the form is invalid  then it won't save and send the error containing form to the form displayed html page 
+            elif end<current:
+                return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+            else:
+                return HttpResponse('Something wrong')
+    else:
+        current=datetime.now()
+        if start>current:
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+            #status = True indicates test still exist
+        elif start<=current and current<=end:
+            #get the current user object :
+            current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='logo')
+            #Update prelim_test model for the particular user
+            if current_user_obj.test_status=="not_started":
+                prelim_test.objects.filter(Student=request.user,event='logo').update(start=current,test_status='started',attended=True)
+            elif current_user_obj.test_status=="finished":
+                messages.warning(request,"You have already posted your logo")
+                return render(request,'success.html')
+            form = LogoForm()
+        elif end<current:
+            #test = after indicates test has completed already
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
     context = {
         'form': form, 'section': section
     }
-
     return render(request, 'imageupload/logo.html', context=context)
 
 
