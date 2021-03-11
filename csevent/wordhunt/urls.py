@@ -14,5 +14,5 @@ urlpatterns = [
     # Cheated Prelims & Finals
     path('text/exit/', exit_test, name="exit_test"),
     # Test submitted
-    path('finished_test/', finished_test, name="finished_test"),
+    path('finished_test/<int:id>/', finished_test, name="finished_test"),
 ]

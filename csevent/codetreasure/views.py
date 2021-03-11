@@ -1,16 +1,16 @@
-from django.contrib import messages
-from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from .models import *
-from userapp.models import *
-
+from userapp.models import test_timings,prelim_test,final_test
+import datetime
 
 def prelm_question(request):
-
-    if request.method == "POST":
+    #Event actual timings(date and time)
+    date_obj=get_object_or_404(test_timings,event="codetreasure",round_type="preliminary")
+    start=date_obj.start
+    end=date_obj.end
+    if request.method == "POST": 
         student = request.user
         q_id = request.POST.get('q_id', 'something wrong')
         question = get_object_or_404(question_model, id=q_id)
@@ -22,60 +22,134 @@ def prelm_question(request):
                 status = True
             else:
                 status = False
-            obj = Stud_Res_CodeTreasure_Prelm.objects.create(
-                student=student, question=question, user_answer=user_answer, status=status)
-            return JsonResponse({'save': "completed"})
+            
+            #Before sumitting the answer this if checks whether the time exceeds or not
+            current_time_during_submit=datetime.datetime.now()
+            if start<=current_time_during_submit and current_time_during_submit<=end:
+                #Checking for cheated
+                current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='codetreasure')
+                if current_user_obj.test_status=='cheated':
+                   return JsonResponse({'save':'cheated'})
+                else:
+                    Stud_Res_CodeTreasure_Prelm.objects.create(
+                        student=student, question=question, user_answer=user_answer, status=status)
+                    return JsonResponse({'save': "completed"})
+            else: 
+                return JsonResponse({'save':'after'})
+    
     else:
+        #Current date and time
+        current=datetime.datetime.now()
+        if start>current:
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+            #status = True indicates test still exist
+        elif start<=current and current<=end:
+            current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='codetreasure')
+            #Update prelim_test model for the particular user
+            if current_user_obj.test_status=="not_started":
+                prelim_test.objects.filter(Student=request.user,event='codetreasure').update(start=datetime.datetime.now(),test_status='started',attended=True)
+            elif current_user_obj.test_status=="cheated":
+                return render(request,'show_test.html',{'status':'cheated'})
 
-        page_no = request.GET.get('page', 1)
-        question_set = question_model.objects.all().order_by('id')
-        pages = Paginator(question_set, 1)
+            page_no = request.GET.get('page', 1)
+            question_set = question_model.objects.all().order_by('id')
+            pages = Paginator(question_set, 1)
 
-        try:
-            page = pages.page(page_no)
-        except EmptyPage:
-            page = pages.page(pages.num_pages)
-        except PageNotAnInteger:
-            page = pages.page(1)
+            try:
+               page = pages.page(page_no)
+            except EmptyPage:
+               page = pages.page(pages.num_pages)
+            except PageNotAnInteger:
+               page = pages.page(1)
 
-        context = {
+            context = {
             'page': page, 'pages': pages
-        }
-        return render(request, 'codetreasure/prelm_question.html', context=context)
+            }
+            return render(request, 'codetreasure/prelm_question.html', context=context)
+        elif end<current:
+            #test = after indicates test has completed already
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+        else:
+            return HttpResponse("something wrong sorry for the inconvenience")
+
+        
 
 
 def final_code_shuffle_function(request):
+    #Event actual timings(date and time)
+    date_obj=get_object_or_404(test_timings,event="codetreasure",round_type="final")
+    start=date_obj.start
+    end=date_obj.end
+    
     if request.method == "POST":
         student = request.user
         question = get_object_or_404(
             final_code_shuffle_relation, id=request.POST.get('q_id', 'something wrong'))
+        
+        #Checks whether this question is already entered by the user
         if final_answer_relation.objects.filter(student=student, final_code_shuffle_question=question).exists():
             return JsonResponse({'result': "already entered"})
+        
         else:
             user_answer = request.POST.get('answer', 'Something wrong')
-            final_answer_relation.objects.create(
-                student=student, final_code_shuffle_question=question, user_answer=user_answer)
-            return JsonResponse({'result': 'success'})
+            
+            #Checks whether the time is exhausted or not before submitting the answers
+            current_time_during_submit=datetime.datetime.now()
+            if start<=current_time_during_submit and current_time_during_submit<=end:
+                current_user_obj=get_object_or_404(final_test,student=request.user,event='codetreasure')
+                if current_user_obj.test_status=='cheated':
+                    return JsonResponse({'result':'cheated'})
+                else:
+                    obj = final_answer_relation.objects.create(
+                            student=student, final_code_shuffle_question=question, user_answer=user_answer)
+                    return JsonResponse({'result': "completed"})
+            else: 
+                return JsonResponse({'result':'after'})
 
-    page_no = request.GET.get('page', 1)
-    question_set = final_code_shuffle_relation.objects.all().order_by('id')
-    pages = Paginator(question_set, 1)
+    else:
+        #Current time the finalists clicked the event
+        current=datetime.datetime.now()
+        #Checking if they before start the test
+        if start>current:
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+        
+        elif start<=current and current<=end:
+            current_user_obj=get_object_or_404(final_test,student=request.user,event='codetreasure')
+            #Update final_test model for the particular user
+            if current_user_obj.test_status=="not_started":
+                final_test.objects.filter(student=request.user,event='codetreasure').update(start=datetime.datetime.now(),test_status='started',attended=True)
+            elif current_user_obj.test_status=="cheated":
+                return render(request,'show_test.html',{'status':'cheated'})
 
-    try:
-        page = pages.page(page_no)
-    except EmptyPage:
-        page = pages.page(pages.num_pages)
-    except PageNotAnInteger:
-        page = pages.page(1)
+            page_no = request.GET.get('page', 1)
+            question_set = final_code_shuffle_relation.objects.all().order_by('id')
+            pages = Paginator(question_set, 1)
+             
+            try:
+               page = pages.page(page_no)
+            except EmptyPage:
+               page = pages.page(pages.num_pages)
+            except PageNotAnInteger:
+                page = pages.page(1)
 
-    context = {
-        'page': page, 'pages': pages
-    }
+            context = {
+                'page': page, 'pages': pages
+            }
 
-    return render(request, 'codetreasure/final_code_shuffle.html', context=context)
+            return render(request, 'codetreasure/final_code_shuffle.html', context=context)
+        elif end<current:
+            #test = after indicates test has completed already
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+        else:
+            return HttpResponse("something wrong sorry for the inconvenience")
 
 
 def final_binary_function(request):
+    #Event actual timings(date and time)
+    date_obj=get_object_or_404(test_timings,event="codetreasure",round_type="final")
+    start=date_obj.start
+    end=date_obj.end
+
     if request.method == "POST":
         student = request.user
         question = get_object_or_404(
@@ -84,25 +158,56 @@ def final_binary_function(request):
             return JsonResponse({'result': 'already entered'})
         else:
             user_answer = request.POST.get('answer', 'something wrong')
-            final_answer_relation.objects.create(
-                student=student, final_code_binary_question=question, user_answer=user_answer)
-            return JsonResponse({'result': 'success'})
+            current_time_during_submit=datetime.datetime.now()
+            if start<=current_time_during_submit and current_time_during_submit<=end:
+                current_user_obj=get_object_or_404(final_test,student=request.user,event='codetreasure')
+                if current_user_obj.test_status=='cheated':
+                    return JsonResponse({'result':'cheated'})
+                else:
+                    final_answer_relation.objects.create(
+                        student=student, final_code_binary_question=question, user_answer=user_answer)
+                    return JsonResponse({'result': 'completed'})
+            else:
+                return JsonResponse({'result':'after'})
+            
+    else:
+        #Current time the finalists clicked the event
+        current=datetime.datetime.now()
+        #Checking if they before start the test
+        if start>current:
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+        elif start<=current and current<=end:
+            current_user_obj=get_object_or_404(final_test,student=request.user,event='codetreasure')
+            #Update final_test model for the particular user
+            if current_user_obj.test_status=="not_started":
+                final_test.objects.filter(student=request.user,event='codetreasure').update(start=datetime.datetime.now(),test_status='started',attended=True)
+            elif current_user_obj.test_status=="cheated":
+                return render(request,'show_test.html',{'status':'cheated'})
+            page_no = request.GET.get('page', 1)
+            question_set = final_code_binary_question.objects.all().order_by('id')
+            pages = Paginator(question_set, 1)
 
-    page_no = request.GET.get('page', 1)
-    question_set = final_code_binary_question.objects.all().order_by('id')
-    pages = Paginator(question_set, 1)
+            try:
+               page = pages.page(page_no)
+            except EmptyPage:
+               page = pages.page(pages.num_pages)
+            except PageNotAnInteger:
+               page = pages.page(1)
 
-    try:
-        page = pages.page(page_no)
-    except EmptyPage:
-        page = pages.page(pages.num_pages)
-    except PageNotAnInteger:
-        page = pages.page(1)
-
-    return render(request, 'codetreasure/final_binary.html', {'page': page, 'pages': pages})
+            return render(request, 'codetreasure/final_binary.html', {'page': page, 'pages': pages})
+        elif end<current:
+            #test = False indicates test has completed already
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+        else:
+            return HttpResponse("something wrong sorry for the inconvenience")
 
 
 def final_spot_error_function(request):
+    #Event actual timings(date and time)
+    date_obj=get_object_or_404(test_timings,event="codetreasure",round_type="final")
+    start=date_obj.start
+    end=date_obj.end
+
     if request.method == 'POST':
         student = request.user
         question = get_object_or_404(final_code_spot_error_question, id=request.POST.get(
@@ -111,113 +216,72 @@ def final_spot_error_function(request):
             return JsonResponse({'result': 'already entered'})
         else:
             user_answer = request.POST.get('answer', 'something went wrong')
-            final_answer_relation.objects.create(
-                student=student, final_code_spot_error_question=question, user_answer=user_answer)
-            return JsonResponse({'result': 'success'})
+            current_time_during_submit=datetime.datetime.now()
+            if start<=current_time_during_submit and current_time_during_submit<=end:
+                current_user_obj=get_object_or_404(final_test,student=request.user,event='codetreasure')
+                if current_user_obj.test_status=='cheated':
+                    return JsonResponse({'result':'cheated'})
+                else:
+                    final_answer_relation.objects.create(
+                        student=student, final_code_spot_error_question=question, user_answer=user_answer)
+                    return JsonResponse({'result': 'completed'})
+            else:
+                return JsonResponse({'result':'after'})
+    else:
+        #Current date with time the finalists clicked the event
+        current=datetime.datetime.now()
+        #Checking if they before start the test
+        if start>current:
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+        elif start<=current and current<=end:
+            current_user_obj=get_object_or_404(final_test,student=request.user,event='codetreasure')
+             #Update final_test model for the particular user
+            if current_user_obj.test_status=="not_started":
+                final_test.objects.filter(student=request.user,event='codetreasure').update(start=datetime.datetime.now(),test_status='started',attended=True)
+            elif current_user_obj.test_status=="cheated":
+                return render(request,'show_test.html',{'status':'cheated'})
+            page_no = request.GET.get('page', 1)
+            question_set = final_code_spot_error_question.objects.all().order_by('id')
+            pages = Paginator(question_set, 1)
 
-    page_no = request.GET.get('page', 1)
-    question_set = final_code_spot_error_question.objects.all().order_by('id')
-    pages = Paginator(question_set, 1)
+            try:
+               page = pages.page(page_no)
+            except EmptyPage:
+                page = pages.page(pages.num_pages)
+            except PageNotAnInteger:
+                page = pages.page(1)
 
-    try:
-        page = pages.page(page_no)
-    except EmptyPage:
-        page = pages.page(pages.num_pages)
-    except PageNotAnInteger:
-        page = pages.page(1)
+            context = {
+                'page': page, 'pages': pages
+            }
+            return render(request, 'codetreasure/final_spot_error.html', context=context)
+        elif end<current:
+            #test = after indicates test has completed already
+            return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+        else:
+            return HttpResponse("something wrong sorry for the inconvenience")
 
-    context = {
-        'page': page, 'pages': pages
-    }
-    return render(request, 'codetreasure/final_spot_error.html', context=context)
-
-
-def last_binary_question(request):
+#Final question hendling view
+def last_question_final(request):
+    final_test.objects.filter(student=request.user,event='codetreasure').update(end=datetime.datetime.now(),test_status='finished')
     return HttpResponse('Successful test completion')
 
+def last_question_prelims(request):
+    prelim_test.objects.filter(Student=request.user,event='codetreasure').update(end=datetime.datetime.now(),test_status='finished')
+    return HttpResponse('Successful test completion in prelims')
 
-def prelm_status(request):
-    #  prelims test (end,test_status)
-
-    return HttpResponse('Successful test completion')
-
-
-# Cheated Finals
-def finals_exit_test(request):
-    messages.warning(request, "Tab Switch Deteched")
+def exit_test_preliminary(request):
+    prelim_test.objects.filter(Student=request.user,event='codetreasure').update(end=datetime.datetime.now(),test_status='cheated')
     status = True
-
-    if request.method == "POST":
-        final_test.objects.filter(
-            student=request.user, event="codetreasure").update(test_status="cheated")
-
     data = {
         'is_taken': status
     }
     return JsonResponse(data)
 
-
-# Cheated Prelims
-def prelims_exit_test(request):
-    messages.warning(request, "Tab Switch Deteched")
+def exit_test_final(request):
+    final_test.objects.filter(student=request.user,event='codetreasure').update(end=datetime.datetime.now(),test_status='cheated')
     status = True
-
-    if request.method == "POST":
-        prelim_test.objects.filter(
-            Student=request.user, event="codetreasure").update(test_status="cheated")
-
     data = {
         'is_taken': status
     }
     return JsonResponse(data)
-
-
-# Finals Score Entry
-def finals_score(request):
-    code_score = final_answer_relation.objects.all()
-
-    if request.method == "POST":
-        email = request.POST.get('email')
-        email_id = request.POST.get('email_id')
-        answer = request.POST.get('answer')
-        if email:
-            id = get_object_or_404(User, email=email)
-            code_score = final_answer_relation.objects.filter(
-                student=id).order_by('when')
-        elif email_id:
-            id = get_object_or_404(User, email=email_id)
-            Score_codetreasureModel.objects.create(
-                student=id, roundtype="final", score=answer)
-
-    context = {
-        'code_score': code_score
-    }
-
-    return render(request, "codetreasure/final_score.html", context=context)
-
-
-# Prelims Score Entry
-def prelims_score(request):
-    code_score = None
-    # Stud_Res_CodeTreasure_Prelm.object.filter()
-    query = Stud_Res_CodeTreasure_Prelm.objects.values('student').distinct()
-    # query = Stud_Res_CodeTreasure_Prelm.objects.all().query
-    # # query.group_by = ['student']
-    # # results = QuerySet(query=query, model=Stud_Res_CodeTreasure_Prelm)
-    # # print(results)
-
-    for a in query:
-        for k, id in a.items():
-            score = Stud_Res_CodeTreasure_Prelm.objects.filter(
-                student=id, status=True).count()
-            Score_codetreasureModel.objects.create(
-                student=id, roundtype="prelims", score=score)
-            print(score, id)
-
-    content = {
-        'code_score': code_score
-    }
-
-    return render(request, "codetreasure/prelims_score.html", context=content)
-
-    # obj = Stud_Res_CodeTreasure_Prelm.object.

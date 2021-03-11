@@ -86,8 +86,8 @@ class prelim_test(models.Model):
                     ('logo', 'Logo Design'), ('poster', 'Poster Design')]
     event = models.CharField(max_length=20, choices=event_choice)
 
-    start = models.DateTimeField(null=True)
-    end = models.DateTimeField(null=True)
+    start = models.DateTimeField(null=True,blank=True)
+    end = models.DateTimeField(null=True,blank=True)
 
     status = [('started', 'started'), ('finished', 'finished'),
               ('cheated', 'cheated'), ('not_started', 'not started')]

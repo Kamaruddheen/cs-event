@@ -27,11 +27,18 @@
     <button type="button" class="btn btn-success float-right submit_button"
         data-question="{{question.id}}">Submit</button>
     {% if page.has_next %}
-    <a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
-        style="pointer-events:none ; cursor:default">Next</a>
+        <a href="?page={{page.next_page_number}}" class="btn btn-primary float-right next"
+            style="pointer-events:none ; cursor:default">Next</a>
     {% else %}
-    <a href="{% url 'wordhunt:prelimsB' %}" class="btn btn-primary float-right next"
-        style="pointer-events:none ; cursor:default">Next</a>
+        {% if section %}
+            <a href="{% url 'wordhunt:prelimsB' %}"
+                class="btn btn-disabled text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-indigo-300 px-4 m-2  float-right next"
+                style="pointer-events:none ; cursor:default">Next</a>
+        {% else %}
+            <a href="{% url 'wordhunt:finalsB' %}"
+                class="btn btn-disabled text-white bg-pink-500 hover:bg-pink-600 focus:ring-4 focus:ring-indigo-300 px-4 m-2  float-right next"
+                style="pointer-events:none ; cursor:default">Next</a>
+        {% endif %}
     {% endif %}
 </form>
 
@@ -66,7 +73,7 @@
                 alert("Tab Switching is not Allowed more than 2 times.\nTab Switch Count: 2");
             }
             else {
-                alert("Exam Over!!!!!!");
+                alert("Malpractice");
                 $.ajax({
                     headers: {
                         "X-CSRFTOKEN": "{{ csrf_token }}",
@@ -78,8 +85,7 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.is_taken) {
-                            window.close();
-                            close();
+                            location.reload();
                         }
                     }
                 });

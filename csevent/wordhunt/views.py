@@ -15,7 +15,6 @@ def question_prelims_sectionA(request):
     date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="preliminary")
     start=date_obj.start
     end=date_obj.end
-    print(end < datetime.datetime.now())
     #Get the current date and time
     current=datetime.datetime.now()
     
@@ -124,9 +123,9 @@ def question_finals_sectionA(request):
 
     elif start<=current and current<=end:
         #Some other filtering
-        current_user_obj=get_object_or_404(final_test,Student=request.user,event='wordhunt')
+        current_user_obj=get_object_or_404(final_test,student=request.user,event='wordhunt')
         if current_user_obj.test_status=="not_started":
-            prelim_test.objects.filter(Student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
+            final_test.objects.filter(student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
         elif current_user_obj.test_status=="cheated":
             return render(request,'show_test.html',{'status':'cheated'})    
         answer_form = Student_Answer(request.POST or None)
@@ -172,9 +171,9 @@ def question_finals_sectionB(request):
     
     elif start<=current and current<=end:
         #Some other filtering
-        current_user_obj=get_object_or_404(final_test,Student=request.user,event='wordhunt')
+        current_user_obj=get_object_or_404(final_test,student=request.user,event='wordhunt')
         if current_user_obj.test_status=="not_started":
-            prelim_test.objects.filter(Student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
+            final_test.objects.filter(student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
         elif current_user_obj.test_status=="cheated":
             return render(request,'show_test.html',{'status':'cheated'})   
         
@@ -212,7 +211,7 @@ def answer_submit(request):
         current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='wordhunt')
     elif round=='finals':
         date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="final")
-        current_user_obj=get_object_or_404(final_test,Student=request.user,event='wordhunt')
+        current_user_obj=get_object_or_404(final_test,student=request.user,event='wordhunt')
         
     #Get the actual start and end date and time of the event
     start=date_obj.start
@@ -261,10 +260,10 @@ def exit_test(request):
         round = request.POST.get('round')
         if round == "prelims":
             prelim_test.objects.filter(
-                Student=request.user, event="wordhunt").update(test_status="cheated")
+                Student=request.user, event="wordhunt").update(test_status="cheated",end=datetime.datetime.now())
         elif round == "finals":
             final_test.objects.filter(
-                student=request.user, event="wordhunt").update(test_status="cheated")
+                student=request.user, event="wordhunt").update(test_status="cheated",end=datetime.datetime.now())
 
     data = {
         'is_taken': status
@@ -272,7 +271,14 @@ def exit_test(request):
     return JsonResponse(data)
 
 
-def finished_test(request):#status need to be changed for time
+def finished_test(request,id):
+    #status need to be changed for time
+    if id==1:
+        prelim_test.objects.filter(Student=request.user,event='wordhunt').update(test_status='finished',end=datetime.datetime.now())
+    elif id==2:
+        final_test.objects.filter(student=request.user,event='wordhunt').update(test_status='finished',end=datetime.datetime.now())
+    else:
+        return HttpResponse('something wrong')
     return HttpResponse("Test completed successfully.")
 
 

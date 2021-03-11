@@ -7,7 +7,8 @@ app_name = 'codetreasure'
 urlpatterns = [
     #  Prelims
     path('prelims/', prelm_question, name='prelims'),
-    path('prelims/status/', prelm_status, name='prelm_status'),
+    path('prelims/status/', last_question_prelims, name='last_question_prelims'),
+    path('final/status/',last_question_final,name='last_question_final'),
     #  Finals
     # Code Shuffle
     path('finals/codeshuffle/', final_code_shuffle_function,
@@ -18,13 +19,7 @@ urlpatterns = [
     # Binary Hunt
     path('finals/binaryhunt/', final_binary_function,
          name='final_binary_function'),
-    # Test Final Message
-    path('finals/status/', last_binary_question,
-         name='last_binary_question'),
-    # Cheated Exit Test
-    path('text/exit/finals/', finals_exit_test, name="exit_test"),
-    path('text/exit/prelims/', prelims_exit_test, name="prelims_exit_test"),
-    # Exporting Result
-    path('score/finals/', finals_score, name="finals_score"),
-    path('score/prelims/', prelims_score, name="prelims_score"),
+    #cheated url path :
+    path('cheated/prelims/',exit_test_preliminary,name='exit_test_preliminary'),
+    path('cheated/final/',exit_test_final,name='exit_test_final'),
 ]
