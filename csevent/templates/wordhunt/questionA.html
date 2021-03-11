@@ -103,12 +103,21 @@
                     },
                     url: "{% url 'wordhunt:answer_submit_prelims' %}",
                     type: 'post',
-                    data: { 'answer': answer, 'question_id': question_id },
+                    data: { 'answer': answer, 'question_id': question_id ,'round':round},
                     dataType: 'json',
                     success: function (data) {
                         if (data['is_taken']) {
                             alert("already submitted");
                             $(".next").removeAttr("style");
+                        }
+                        else if(data['failure']){
+                            alert('Time is over')
+                            $(".next").removeAttr("style")
+                        }
+                        else if(data['status']=='cheated')
+                        {
+                            alert('Malpractice has been detected for you')
+                            $(".next").removeAttr("style")
                         }
                         else {
                             alert("Submitted successfully");

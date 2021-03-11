@@ -3,113 +3,224 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
-
+import datetime
 from .forms import *
 from .models import *
 from userapp.models import *
 
 
 # Wordhunt Prelims Section A
-def question_prelims_sectionA(request):#If condition for time checking adn update as started
-    answer_form = Student_Answer(request.POST or None)
+def question_prelims_sectionA(request):
+    #Get the actual start and end date and time of the event
+    date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="preliminary")
+    start=date_obj.start
+    end=date_obj.end
+    print(end < datetime.datetime.now())
+    #Get the current date and time
+    current=datetime.datetime.now()
+    
+    #Compare current with actual start and end date and time
+    if start>current:
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
+    elif start<=current and current<=end:
+        current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='wordhunt')
+        if current_user_obj.test_status=="not_started":
+            prelim_test.objects.filter(Student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
+        elif current_user_obj.test_status=='cheated':
+            return render(request,'show_test.html',{'status':'cheated'})
 
-    section = True
+        answer_form = Student_Answer(request.POST or None)
 
-    page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(
-        roundtype="prelims", section="A").order_by('id')
-    pages = Paginator(question_set, 1)
-    try:
-        page = pages.page(page_no)
-    except EmptyPage:
-        page = pages.page(pages.num_pages)
-    except PageNotAnInteger:
-        page = pages.page(1)
+        section = True
 
-    context = {
-        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+        page_no = request.GET.get('page', 1)
+        question_set = Wordhunt.objects.filter(
+            roundtype="prelims", section="A").order_by('id')
+        pages = Paginator(question_set, 1)
+        try:
+           page = pages.page(page_no)
+        except EmptyPage:
+            page = pages.page(pages.num_pages)
+        except PageNotAnInteger:
+            page = pages.page(1)
 
-    return render(request, 'wordhunt/questionA.html', context=context)
+        context = {
+            'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+
+        return render(request, 'wordhunt/questionA.html', context=context)
+
+    elif end<current:
+        #test = after indicates test has completed already
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+    
+    else:
+        return HttpResponse("something wrong sorry for the inconvenience")
 
 
 # Wordhunt Prelims Section A
 def question_prelims_sectionB(request):
-    # wordhunt_B = Wordhunt.objects.filter(roundtype="prelims", section="B")
-    answer_form = Student_Answer(request.POST or None)
+    #Get the actual start and end date and time of the event
+    date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="preliminary")
+    start=date_obj.start
+    end=date_obj.end
 
-    section = True
+    #Get the current datetime
+    current=datetime.datetime.now()
 
-    page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(
-        roundtype="prelims", section="B").order_by('id')
-    pages = Paginator(question_set, 1)
+    #Compare current with actual start and end date and time
+    if start>current:
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
 
-    try:
-        page = pages.page(page_no)
-    except EmptyPage:
-        page = pages.page(pages.num_pages)
-    except PageNotAnInteger:
-        page = pages.page(1)
+    elif start<=current and current<=end:
+        #Get the current user object
+        current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='wordhunt')
+        if current_user_obj.test_status=='not_started':
+            prelim_test.objects.filter(Student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
+        elif current_user_obj.test_status=='cheated':
+            return render(request,'show_test.html',{'status':'cheated'})
+        
+        answer_form = Student_Answer(request.POST or None)
 
-    context = {
-        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages
-    }
+        section = True
 
-    return render(request, 'wordhunt/questionB.html', context=context)
+        page_no = request.GET.get('page', 1)
+        question_set = Wordhunt.objects.filter(
+          roundtype="prelims", section="B").order_by('id')
+        pages = Paginator(question_set, 1)
 
+        try:
+           page = pages.page(page_no)
+        except EmptyPage:
+           page = pages.page(pages.num_pages)
+        except PageNotAnInteger:
+           page = pages.page(1)
+
+        context = {
+            'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages
+        }
+
+        return render(request, 'wordhunt/questionB.html', context=context)
+        
+    elif end<current:
+        #test = after indicates test has completed already
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+    
+    else:
+        return HttpResponse("something wrong sorry for the inconvenience")
 
 # Wordhunt Prelims Section A
 def question_finals_sectionA(request):
-    # wordhunt_A = Wordhunt.objects.filter(roundtype="final", section="A")
-    answer_form = Student_Answer(request.POST or None)
+    #Get the actual start and end date and time of the event
+    date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="final")
+    start=date_obj.start
+    end=date_obj.end
+    
+    #Get the current date and time
+    current=datetime.datetime.now()
 
-    section = False
+    #Compare current with actual start and end date and time
+    if start>current:
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'before'})
 
-    page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(
-        roundtype="final", section="A").order_by('id')
-    pages = Paginator(question_set, 1)
-    try:
-        page = pages.page(page_no)
-    except EmptyPage:
-        page = pages.page(pages.num_pages)
-    except PageNotAnInteger:
-        page = pages.page(1)
+    elif start<=current and current<=end:
+        #Some other filtering
+        current_user_obj=get_object_or_404(final_test,Student=request.user,event='wordhunt')
+        if current_user_obj.test_status=="not_started":
+            prelim_test.objects.filter(Student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
+        elif current_user_obj.test_status=="cheated":
+            return render(request,'show_test.html',{'status':'cheated'})    
+        answer_form = Student_Answer(request.POST or None)
 
-    context = {
-        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+        section = False
 
-    return render(request, 'wordhunt/questionA.html', context=context)
+        page_no = request.GET.get('page', 1)
+        question_set = Wordhunt.objects.filter(
+            roundtype="final", section="A").order_by('id')
+        pages = Paginator(question_set, 1)
+        try:
+            page = pages.page(page_no)
+        except EmptyPage:
+            page = pages.page(pages.num_pages)
+        except PageNotAnInteger:
+            page = pages.page(1)
 
+        context = {
+            'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+
+        return render(request, 'wordhunt/questionA.html', context=context)
+    
+    elif end<current:
+        #test = after indicates test has completed already
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+    
+    else:
+        return HttpResponse("something wrong sorry for the inconvenience")
 
 # Wordhunt Prelims Section A
 def question_finals_sectionB(request):
-    # wordhunt_B = Wordhunt.objects.filter(roundtype="final", section="B")
-    answer_form = Student_Answer(request.POST or None)
+    #Get the actual start and end date and time of the event
+    date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="final")
+    start=date_obj.start
+    end=date_obj.end
 
-    section = False
+    #Get the current date and time
+    current=datetime.datetime.now()
 
-    page_no = request.GET.get('page', 1)
-    question_set = Wordhunt.objects.filter(
-        roundtype="final", section="B").order_by('id')
-    pages = Paginator(question_set, 1)
-    try:
-        page = pages.page(page_no)
-    except EmptyPage:
-        page = pages.page(pages.num_pages)
-    except PageNotAnInteger:
-        page = pages.page(1)
+    #Compare current with actual start and end date and time
+    if start>current:
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'before'}) 
+    
+    elif start<=current and current<=end:
+        #Some other filtering
+        current_user_obj=get_object_or_404(final_test,Student=request.user,event='wordhunt')
+        if current_user_obj.test_status=="not_started":
+            prelim_test.objects.filter(Student=request.user,event='wordhunt').update(start=datetime.datetime.now(),test_status='started',attended=True)
+        elif current_user_obj.test_status=="cheated":
+            return render(request,'show_test.html',{'status':'cheated'})   
+        
+        answer_form = Student_Answer(request.POST or None)
 
-    context = {
-        'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+        section = False
 
-    return render(request, 'wordhunt/questionB.html', context=context)
+        page_no = request.GET.get('page', 1)
+        question_set = Wordhunt.objects.filter(
+           roundtype="final", section="B").order_by('id')
+        pages = Paginator(question_set, 1)
+        try:
+            page = pages.page(page_no)
+        except EmptyPage:
+            page = pages.page(pages.num_pages)
+        except PageNotAnInteger:
+            page = pages.page(1)
 
+        context = {
+            'answer_form': answer_form, 'section': section, 'page': page, 'pages': pages}
+
+        return render(request, 'wordhunt/questionB.html', context=context)
+    elif end<current:
+        #test = after indicates test has completed already
+        return render(request,'show_test.html',{'start':start,'end':end,'status':'after'})
+    else:
+        return HttpResponse("something wrong sorry for the inconvenience")
 
 # All Prelims & Finals Answer will come here
 def answer_submit(request):
+    #Get the round of the test :
+    round=request.POST.get('round','something wrong')
+    if round=='prelims':
+        date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="preliminary")
+        current_user_obj=get_object_or_404(prelim_test,Student=request.user,event='wordhunt')
+    elif round=='finals':
+        date_obj=get_object_or_404(test_timings,event="wordhunt",round_type="final")
+        current_user_obj=get_object_or_404(final_test,Student=request.user,event='wordhunt')
+        
+    #Get the actual start and end date and time of the event
+    start=date_obj.start
+    end=date_obj.end
+    
     attended = False
     status = False
+    failure=True #indicates data is saved within the time or not
     student = request.user
     question_id = request.POST.get('question_id', None)
     question_obj = get_object_or_404(Wordhunt, id=question_id)
@@ -123,12 +234,21 @@ def answer_submit(request):
     if Stud_Res_WordHunt.objects.filter(student=student, question=question_obj).exists():
         attended = True
         messages.info(request, "You have already attended this question")
-    else:#answer entry
-        student_final_answer = Stud_Res_WordHunt.objects.create(
-            student=student, question=question_obj, user_answer=actual_answer, status=status)
+    else:
+        #Answer entry is here
+        current_time_during_submit=datetime.datetime.now()
+        if start<=current_time_during_submit and current_time_during_submit<=end:
+            #Checking for cheated
+            if current_user_obj.test_status=='cheated':
+                return JsonResponse({'status':'cheated'})
+            else:    
+                student_final_answer = Stud_Res_WordHunt.objects.create(
+                    student=student, question=question_obj, user_answer=actual_answer, status=status)
+                failure=False#indicates data is saved within the time
 
     data = {
-        'is_taken': attended}
+        'is_taken': attended,
+        'failure':failure}
     return JsonResponse(data)
 
 
