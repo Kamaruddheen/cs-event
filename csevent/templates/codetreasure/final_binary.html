@@ -74,12 +74,17 @@
                             alert("You have already attended this question");
                             $('.next').removeAttr("style")
                         }
+                        else if(data['result']=='after'){
+                            alert("Time is over")
+                            $('.next').removeAttr("style")
+                        }
+                        else if(data['result']=='cheated'){
+                            alert('Malpractice')
+                            $('.next').removeAttr("style")
+                        }
                         else if (data['result'] == "completed") {
                             alert("Submitted successfully")
                             $('.next').removeAttr("style")
-                        }
-                        else if(data['result']=='after'){
-                            alert("Time is over")
                         }
                     }
                 });

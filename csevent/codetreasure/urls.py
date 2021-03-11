@@ -18,8 +18,10 @@ urlpatterns = [
     path('finals/binaryhunt/', final_binary_function,
          name='final_binary_function'),
     # Test Final Message
-    path('finals/status/', last_question,
-         name='last_question'),
+    path('finals/status/', last_question_prelims,
+         name='last_question_prelims'),
+    path('finals/status/', last_question_final,
+         name='last_question_final'), 
     # Exit Test
     path('notallowed/', exit_test, name="exit_test"),
 
